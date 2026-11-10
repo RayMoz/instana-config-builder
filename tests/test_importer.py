@@ -60,6 +60,18 @@ class ImporterTest(unittest.TestCase):
         self.assertNotIn("os", fields["filesystems"])
         self.assertNotIn("os", fields["poll_rate"])
 
+    def test_tracing_example(self):
+        r = section(import_yaml(fixture("tracing.yaml"), BY_KEY), "com.instana.tracing")
+        self.assertEqual(r["extra"], "", "alle Tracer-Optionen sollten im Katalog stehen")
+        v = r["values"]
+        self.assertEqual(v["extra-http-headers"], ["x-request-id", "x-loadtest-id"])
+        self.assertEqual(v["disable"], [["redis", "true"], ["console", "false"], ["logging", "true"]])
+        self.assertEqual(v["global"]["stack-trace-length"], "15")
+        self.assertEqual(v["global"]["stack-trace"], "error")
+        self.assertEqual(v["ignore-endpoints"]["http"], ["/health"])
+        self.assertEqual(v["http"]["exit"]["classify-as-errors"], ["401", "403"])
+        self.assertEqual(v["http"]["exit"]["classify-all-4xx-as-errors"], "true")
+
     def test_unknown_subkeys_fall_back_to_yaml(self):
         text = "com.instana.plugin.javatrace:\n  instrumentation:\n    enabled: true\n    neuesFeature: 1\n"
         v = section(import_yaml(text, BY_KEY), "com.instana.plugin.javatrace")["values"]

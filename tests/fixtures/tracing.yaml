@@ -1,0 +1,33 @@
+# Beispiele aus IBM-Doku „Configuring tracers by using the agent configuration file“
+com.instana.tracing:
+  extra-http-headers:
+    - 'x-request-id'
+    - 'x-loadtest-id'
+  kafka:
+    trace-correlation: true
+    header-format: 'string'
+  disable:
+    redis: true
+    console: false
+    logging: true
+  global:
+    disable-w3c-correlation: true
+    disable-w3c-propagation: false
+    stack-trace-length: 15
+    stack-trace: 'error'
+  ignore-endpoints:
+    redis:
+      - 'get'
+    dynamodb:
+      - 'query'
+    kafka:
+      - methods: ['consume']
+        endpoints: ['topic1', 'topic2']
+    http:
+      - '/health'
+  http:
+    exit:
+      classify-all-4xx-as-errors: true
+      classify-as-errors:
+        - 401
+        - 403
