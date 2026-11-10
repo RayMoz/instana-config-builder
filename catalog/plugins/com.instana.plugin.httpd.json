@@ -1,0 +1,50 @@
+{
+  "key": "com.instana.plugin.httpd",
+  "name": "Apache HTTPd (Monitoring & Tracing)",
+  "category": "Webserver & Proxys",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/apache-httpd/index.html",
+  "source": "ibm-docs",
+  "fields": [
+    {
+      "key": "user",
+      "type": "string",
+      "description": "Benutzer für eine geschützte server-status-URL (Basic Auth)"
+    },
+    {
+      "key": "password",
+      "type": "secret",
+      "description": "Passwort"
+    },
+    {
+      "key": "tracing",
+      "type": "object",
+      "description": "HTTPd-Tracing (Instana-Modul mod_dem)",
+      "fields": [
+        {
+          "key": "enabled",
+          "type": "boolean",
+          "description": "Tracing aktivieren; der Agent installiert und lädt das Modul",
+          "default": false
+        },
+        {
+          "key": "pinModuleVersion",
+          "type": "string",
+          "description": "Modulversion festschreiben (Standard: neueste)",
+          "placeholder": "1.0.8"
+        },
+        {
+          "key": "notificationScript",
+          "type": "string",
+          "description": "Absoluter Pfad eines Skripts, das bei Modulwechsel läuft",
+          "placeholder": "/opt/scripts/httpd-module-changed.sh"
+        },
+        {
+          "key": "autoRestart",
+          "type": "boolean",
+          "description": "HTTPd nach Modulinstallation graceful neu starten",
+          "default": false
+        }
+      ]
+    }
+  ]
+}

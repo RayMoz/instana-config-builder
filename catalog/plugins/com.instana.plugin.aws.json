@@ -1,0 +1,112 @@
+{
+  "key": "com.instana.plugin.aws",
+  "name": "AWS",
+  "category": "Cloud",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/aws/index.html",
+  "source": "ibm-docs",
+  "fields": [
+    {
+      "key": "profile_names",
+      "type": "stringList",
+      "description": "Weitere AWS-Profile, die überwacht werden",
+      "placeholder": "profile2"
+    },
+    {
+      "key": "role_arns",
+      "type": "stringList",
+      "description": "IAM-Rollen weiterer Accounts",
+      "placeholder": "arn:aws:iam::<account_id>:role/<role_name>"
+    },
+    {
+      "key": "include_tags",
+      "type": "string",
+      "description": "Nur Ressourcen mit einem dieser Tags (key:value, kommagetrennt)",
+      "placeholder": "env:prod,team:a"
+    },
+    {
+      "key": "exclude_tags",
+      "type": "string",
+      "description": "Ressourcen mit diesen Tags ausschließen (hat Vorrang)",
+      "placeholder": "monitoring:off"
+    },
+    {
+      "key": "include_untagged",
+      "type": "boolean",
+      "description": "false: Ressourcen ohne Tags ausschließen"
+    },
+    {
+      "key": "tagged-services-poll-rate",
+      "type": "integer",
+      "description": "Wie oft Tags abgefragt werden",
+      "default": 300,
+      "unit": "s"
+    },
+    {
+      "key": "cloudwatch_period",
+      "type": "integer",
+      "description": "CloudWatch-Abfrageintervall (global)",
+      "default": 300,
+      "unit": "s"
+    },
+    {
+      "key": "proxy_host",
+      "type": "string",
+      "description": "Proxy-Host"
+    },
+    {
+      "key": "proxy_port",
+      "type": "integer",
+      "description": "Proxy-Port",
+      "placeholder": "3128"
+    },
+    {
+      "key": "proxy_protocol",
+      "type": "enum",
+      "description": "Proxy-Protokoll",
+      "options": ["HTTP", "HTTPS"]
+    },
+    {
+      "key": "proxy_username",
+      "type": "string",
+      "description": "Proxy-Benutzer (optional)"
+    },
+    {
+      "key": "proxy_password",
+      "type": "secret",
+      "description": "Proxy-Passwort (optional)"
+    },
+    {
+      "key": "tagging",
+      "type": "object",
+      "description": "Eigener Proxy für die AWS-Tagging-API",
+      "fields": [
+        {
+          "key": "proxy_host",
+          "type": "string",
+          "description": "Proxy-Host"
+        },
+        {
+          "key": "proxy_port",
+          "type": "integer",
+          "description": "Proxy-Port"
+        },
+        {
+          "key": "proxy_protocol",
+          "type": "enum",
+          "description": "Proxy-Protokoll",
+          "options": ["HTTP", "HTTPS"]
+        },
+        {
+          "key": "proxy_username",
+          "type": "string",
+          "description": "Proxy-Benutzer"
+        },
+        {
+          "key": "proxy_password",
+          "type": "secret",
+          "description": "Proxy-Passwort"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "key": "com.instana.plugin.eum",
+  "name": "EUM – Website-Autoinstrumentierung",
+  "category": "Webserver & Proxys",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/website_monitoring/auto_instrument.html",
+  "source": "ibm-docs",
+  "note": "Injiziert den EUM-JavaScript-Agent automatisch in HTML-Antworten. Unterstützt: Apache HTTPd (HTTPd-Sensor ≥ 1.2.12, HTTPd-Tracing muss aktiv sein) und Tomcat (Jakarta, Java-Tracer ≥ 2.0.9; dort nur Standard-Content-Types und url/path-Selektoren).",
+  "fields": [
+    {
+      "key": "instrumentation",
+      "type": "object",
+      "description": "Automatische Instrumentierung",
+      "fields": [
+        {
+          "key": "reportingUrl",
+          "type": "string",
+          "description": "Empfangs-URL für die Website-Daten (Pflicht)",
+          "placeholder": "https://eum-red-saas.instana.io"
+        },
+        {
+          "key": "jsAgentUrl",
+          "type": "string",
+          "description": "URL des EUM-JavaScript-Agents",
+          "placeholder": "https://eum.instana.io/1.7.2/eum.min.js"
+        },
+        {
+          "key": "integrityId",
+          "type": "string",
+          "description": "SRI-Hash passend zur Version in jsAgentUrl",
+          "placeholder": "sha384-…"
+        },
+        {
+          "key": "trackSessions",
+          "type": "boolean",
+          "description": "Session-Tracking",
+          "default": true
+        },
+        {
+          "key": "autoPageDetection",
+          "type": "boolean",
+          "description": "Automatische Seitenerkennung (SPAs)",
+          "default": true
+        },
+        {
+          "key": "autoPageDetectionPageTitle",
+          "type": "boolean",
+          "description": "Dokumenttitel als Seitenname",
+          "default": false
+        },
+        {
+          "key": "autoPageDetectionRegex",
+          "type": "yaml",
+          "description": "RegExp-Regeln, die URL-Änderungen auf Seitennamen abbilden (Format siehe Doku)"
+        },
+        {
+          "key": "contentTypes",
+          "type": "stringList",
+          "description": "Zu instrumentierende Content-Types (Standard: text/html, application/xhtml+xml)",
+          "placeholder": "text/html",
+          "example": ["text/html", "application/xhtml+xml"]
+        },
+        {
+          "key": "aggressive",
+          "type": "boolean",
+          "description": "Auch instrumentieren, wenn der Content-Type unbekannt ist",
+          "default": false
+        },
+        {
+          "key": "websites",
+          "type": "objectList",
+          "description": "Websites; Werte hier überschreiben die obigen Vorgaben",
+          "fields": [
+            {
+              "key": "name",
+              "type": "string",
+              "description": "Website-Name in Instana"
+            },
+            {
+              "key": "key",
+              "type": "string",
+              "description": "Monitoring-Key der Website"
+            },
+            {
+              "key": "enabled",
+              "type": "boolean",
+              "description": "Monitoring für diese Website",
+              "default": true
+            },
+            {
+              "key": "mode",
+              "type": "enum",
+              "description": "Übertragungsmodus",
+              "default": "regular",
+              "options": ["regular"]
+            },
+            {
+              "key": "selector",
+              "type": "object",
+              "description": "Auswahl der Requests (alle Ausdrücke müssen passen)",
+              "fields": [
+                {
+                  "key": "matchExpressions",
+                  "type": "objectList",
+                  "description": "Bedingungen",
+                  "fields": [
+                    {
+                      "key": "key",
+                      "type": "string",
+                      "description": "Katalog-/Ressourcenschlüssel",
+                      "placeholder": "url/hostname",
+                      "suggestions": ["url/hostname", "url/path", "k8s/namespace"]
+                    },
+                    {
+                      "key": "operator",
+                      "type": "string",
+                      "description": "Vergleich (auch Varianten ohne Groß-/Kleinschreibung, siehe Doku)",
+                      "placeholder": "Equals",
+                      "suggestions": ["Equals", "Contains", "StartWith"]
+                    },
+                    {
+                      "key": "values",
+                      "type": "stringList",
+                      "description": "Vergleichswerte",
+                      "placeholder": "www.example.com"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "reportingUrl",
+              "type": "string",
+              "description": "Abweichende Empfangs-URL"
+            },
+            {
+              "key": "jsAgentUrl",
+              "type": "string",
+              "description": "Abweichende Agent-URL"
+            },
+            {
+              "key": "integrityId",
+              "type": "string",
+              "description": "Abweichender SRI-Hash"
+            },
+            {
+              "key": "trackSessions",
+              "type": "boolean",
+              "description": "Abweichendes Session-Tracking"
+            },
+            {
+              "key": "autoPageDetection",
+              "type": "boolean",
+              "description": "Abweichende Seitenerkennung"
+            },
+            {
+              "key": "autoPageDetectionPageTitle",
+              "type": "boolean",
+              "description": "Dokumenttitel als Seitenname"
+            },
+            {
+              "key": "autoPageDetectionRegex",
+              "type": "yaml",
+              "description": "Abweichende RegExp-Regeln"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

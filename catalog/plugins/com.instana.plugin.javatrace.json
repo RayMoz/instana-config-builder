@@ -1,0 +1,56 @@
+{
+  "key": "com.instana.plugin.javatrace",
+  "name": "Java Tracing & deklaratives SDK",
+  "category": "Laufzeiten & Tracing",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/tracing/java-configuration-sdk.html",
+  "source": "ibm-docs",
+  "fields": [
+    {
+      "key": "instrumentation",
+      "type": "object",
+      "description": "Bytecode-Instrumentierung",
+      "fields": [
+        {
+          "key": "enabled",
+          "type": "boolean",
+          "description": "Tracing-Instrumentierung (Abschalten erfordert Agent-Neustart)",
+          "default": true
+        },
+        {
+          "key": "opentracing",
+          "type": "boolean",
+          "description": "OpenTracing-Instrumentierung (Neustart nötig)",
+          "default": false
+        },
+        {
+          "key": "plugins",
+          "type": "keyValue",
+          "description": "Instrumentierungs-Plugins abschalten, z. B. Redis, Kafka, Logging, DynamoDB, JdbcExit, ServletEntry: false",
+          "keyPlaceholder": "Redis",
+          "valueType": "boolean"
+        },
+        {
+          "key": "sdk",
+          "type": "object",
+          "description": "Java Trace SDK",
+          "fields": [
+            {
+              "key": "packages",
+              "type": "stringList",
+              "description": "Annotations-SDK: Pakete, die nach @Span-Annotationen durchsucht werden",
+              "placeholder": "com.acme"
+            },
+            {
+              "key": "targets",
+              "type": "objectList",
+              "description": "Deklaratives SDK: je Eintrag ein Span für eine Methode, ohne Codeänderung",
+              "fields": {
+                "$ref": "java-sdk-target"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

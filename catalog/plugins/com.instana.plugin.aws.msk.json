@@ -1,0 +1,8 @@
+{
+  "key": "com.instana.plugin.aws.msk",
+  "name": "AWS MSK",
+  "category": "Cloud",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/aws-msk/index.html",
+  "source": "free",
+  "fields": []
+}

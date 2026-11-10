@@ -1,0 +1,8 @@
+{
+  "key": "com.instana.plugin.snowflake",
+  "name": "Snowflake",
+  "category": "Datenbanken",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/snowflake/index.html",
+  "source": "free",
+  "fields": []
+}

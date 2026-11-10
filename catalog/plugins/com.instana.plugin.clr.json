@@ -1,0 +1,31 @@
+{
+  "key": "com.instana.plugin.clr",
+  "name": ".NET Framework (CLR) – deklaratives SDK",
+  "category": "Laufzeiten & Tracing",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/tracing/dotnet-configuration-sdk.html",
+  "source": "ibm-docs",
+  "fields": [
+    {
+      "key": "instrumentation",
+      "type": "object",
+      "description": "Instrumentierung",
+      "fields": [
+        {
+          "key": "sdk",
+          "type": "object",
+          "description": "Konfigurationsbasiertes Trace SDK",
+          "fields": [
+            {
+              "key": "targets",
+              "type": "objectList",
+              "description": "Je Eintrag ein Span für eine Methode",
+              "fields": {
+                "$ref": "dotnet-sdk-target"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

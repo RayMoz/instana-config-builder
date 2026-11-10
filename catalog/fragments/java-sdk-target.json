@@ -1,0 +1,98 @@
+{
+  "description": "Ziel des deklarativen Java Trace SDK (match + span)",
+  "fields": [
+    {
+      "key": "match",
+      "type": "object",
+      "description": "Welche Methode instrumentiert wird",
+      "fields": [
+        {
+          "key": "type",
+          "type": "enum",
+          "description": "Art des Ziels",
+          "options": ["class", "interface", "baseclass"]
+        },
+        {
+          "key": "name",
+          "type": "string",
+          "description": "Voll qualifizierter Name (innere Klassen als Outer$Inner)",
+          "placeholder": "com.acme.batch.BatchApplication"
+        },
+        {
+          "key": "method",
+          "type": "string",
+          "description": "Methodenname",
+          "placeholder": "processBatch"
+        },
+        {
+          "key": "argumentTypes",
+          "type": "stringList",
+          "description": "Argumenttypen in Reihenfolge (optional, zur Auswahl von Überladungen)",
+          "placeholder": "java.lang.String"
+        },
+        {
+          "key": "returnType",
+          "type": "string",
+          "description": "Rückgabetyp (optional)",
+          "placeholder": "void"
+        }
+      ]
+    },
+    {
+      "key": "span",
+      "type": "object",
+      "description": "Erzeugter Span",
+      "fields": [
+        {
+          "key": "name",
+          "type": "string",
+          "description": "Span-Name (z. B. für call.name-Filter)",
+          "placeholder": "BatchJob"
+        },
+        {
+          "key": "type",
+          "type": "enum",
+          "description": "ENTRY = eingehend, EXIT = ausgehend, INTERMEDIATE = intern",
+          "default": "INTERMEDIATE",
+          "options": ["ENTRY", "INTERMEDIATE", "EXIT"]
+        },
+        {
+          "key": "stackDepth",
+          "type": "integer",
+          "description": "Anzahl erfasster Stack-Frames",
+          "default": 0
+        },
+        {
+          "key": "tags",
+          "type": "objectList",
+          "description": "Tags am Span",
+          "fields": [
+            {
+              "key": "kind",
+              "type": "enum",
+              "description": "Herkunft: fester Wert, Argument oder Rückgabewert",
+              "options": ["constant", "argument", "return"]
+            },
+            {
+              "key": "name",
+              "type": "string",
+              "description": "Tag-Name",
+              "placeholder": "batch.job"
+            },
+            {
+              "key": "value",
+              "type": "string",
+              "description": "Fester Wert (nur bei kind: constant)"
+            },
+            {
+              "key": "index",
+              "type": "integer",
+              "description": "Argument-Position ab 0 (nur bei kind: argument)",
+              "placeholder": "0"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

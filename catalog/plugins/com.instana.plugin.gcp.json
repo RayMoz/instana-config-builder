@@ -1,0 +1,31 @@
+{
+  "key": "com.instana.plugin.gcp",
+  "name": "Google Cloud Platform",
+  "category": "Cloud",
+  "docs": "https://www.ibm.com/docs/SSE1JP5_current/src/pages/ecosystem/gcp/index.html",
+  "source": "ibm-docs",
+  "fields": [
+    {
+      "key": "credentials_path",
+      "type": "string",
+      "description": "Pfad zur Service-Account-Datei",
+      "placeholder": "/opt/instana/agent/etc/gcp-sa.json"
+    },
+    {
+      "key": "poll_rate",
+      "type": "integer",
+      "description": "Abfrageintervall der Monitoring-API",
+      "unit": "s"
+    },
+    {
+      "key": "include_tags",
+      "type": "string",
+      "description": "Nur Ressourcen mit diesen Tags"
+    },
+    {
+      "key": "exclude_tags",
+      "type": "string",
+      "description": "Ressourcen mit diesen Tags ausschließen"
+    }
+  ]
+}

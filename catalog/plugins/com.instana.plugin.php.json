@@ -1,0 +1,22 @@
+{
+  "key": "com.instana.plugin.php",
+  "name": "PHP Tracing",
+  "category": "Laufzeiten & Tracing",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/php/index.html",
+  "source": "agent-template",
+  "fields": [
+    {
+      "key": "tracing",
+      "type": "object",
+      "description": "Tracing-Extension",
+      "fields": [
+        {
+          "key": "enabled",
+          "type": "boolean",
+          "description": "Extension laden und Tracing aktivieren (PHP-FPM neu starten)",
+          "default": true
+        }
+      ]
+    }
+  ]
+}

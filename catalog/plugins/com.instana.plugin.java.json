@@ -1,0 +1,41 @@
+{
+  "key": "com.instana.plugin.java",
+  "name": "Java (JVM & JMX)",
+  "category": "Laufzeiten & Tracing",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/jvm/configuration.html",
+  "source": "agent-template",
+  "fields": [
+    {
+      "key": "jmx",
+      "type": "objectList",
+      "description": "Eigene JMX-Metriken (nicht hot-reloaded, vor JVM-Erkennung setzen)",
+      "fields": [
+        {
+          "key": "object_name",
+          "type": "string",
+          "description": "MBean-ObjectName",
+          "placeholder": "java.lang:type=ClassLoading"
+        },
+        {
+          "key": "metrics",
+          "type": "objectList",
+          "description": "Attribute",
+          "fields": [
+            {
+              "key": "attributes",
+              "type": "string",
+              "description": "Attributname",
+              "placeholder": "LoadedClassCount"
+            },
+            {
+              "key": "type",
+              "type": "enum",
+              "description": "absolute: Wert wie gelesen; delta: Änderung pro Sekunde",
+              "options": ["absolute", "delta"]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

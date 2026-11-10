@@ -1,0 +1,8 @@
+{
+  "key": "com.instana.plugin.action.http",
+  "name": "Automation: HTTP-Aktionen",
+  "category": "Automation",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/index.html",
+  "source": "free",
+  "fields": []
+}

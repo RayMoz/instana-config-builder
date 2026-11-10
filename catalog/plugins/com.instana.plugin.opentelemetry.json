@@ -1,0 +1,53 @@
+{
+  "key": "com.instana.plugin.opentelemetry",
+  "name": "OpenTelemetry (OTLP)",
+  "category": "Metrik-Schnittstellen",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/opentelemetry/instana-agent.html",
+  "source": "ibm-docs",
+  "fields": [
+    {
+      "key": "grpc",
+      "type": "object",
+      "description": "OTLP über gRPC",
+      "fields": [
+        {
+          "key": "enabled",
+          "type": "boolean",
+          "description": "gRPC-Empfang aktivieren (ab Agent 1.1.726 Standard)",
+          "default": true
+        },
+        {
+          "key": "port",
+          "type": "integer",
+          "description": "Port",
+          "default": 4317
+        },
+        {
+          "key": "legacy_port_enabled",
+          "type": "boolean",
+          "description": "Alten Port 55680 zusätzlich öffnen",
+          "default": false
+        }
+      ]
+    },
+    {
+      "key": "http",
+      "type": "object",
+      "description": "OTLP über HTTP",
+      "fields": [
+        {
+          "key": "enabled",
+          "type": "boolean",
+          "description": "HTTP-Empfang aktivieren",
+          "default": true
+        },
+        {
+          "key": "port",
+          "type": "integer",
+          "description": "Port",
+          "default": 4318
+        }
+      ]
+    }
+  ]
+}

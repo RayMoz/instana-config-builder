@@ -1,0 +1,31 @@
+{
+  "key": "com.instana.plugin.azure.apimanagement",
+  "name": "Azure API Management",
+  "category": "Cloud",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/azure/index.html",
+  "source": "ibm-docs",
+  "fields": [
+    {
+      "key": "monitorApiList",
+      "type": "objectList",
+      "description": "API-Filter je API-Management-Service",
+      "fields": [
+        {
+          "key": "serviceName",
+          "type": "string",
+          "description": "Name des API-Management-Service"
+        },
+        {
+          "key": "inclusiveApiRegex",
+          "type": "string",
+          "description": "Regex für einzuschließende APIs"
+        },
+        {
+          "key": "exclusiveApiRegex",
+          "type": "string",
+          "description": "Regex für auszuschließende APIs (Vorrang)"
+        }
+      ]
+    }
+  ]
+}

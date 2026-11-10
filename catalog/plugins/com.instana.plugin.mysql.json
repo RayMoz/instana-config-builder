@@ -1,0 +1,53 @@
+{
+  "key": "com.instana.plugin.mysql",
+  "name": "MySQL",
+  "category": "Datenbanken",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/mysql/index.html",
+  "source": "ibm-docs",
+  "fields": [
+    {
+      "key": "enabled",
+      "type": "boolean",
+      "description": "Sensor ein- oder ausschalten"
+    },
+    {
+      "key": "user",
+      "type": "string",
+      "description": "Datenbankbenutzer für das Monitoring"
+    },
+    {
+      "key": "password",
+      "type": "secret",
+      "description": "Passwort des Monitoring-Benutzers"
+    },
+    {
+      "key": "poll_rate",
+      "type": "integer",
+      "description": "Abfrageintervall in Sekunden",
+      "default": 1,
+      "unit": "s"
+    },
+    {
+      "key": "schema_excludes",
+      "type": "stringList",
+      "description": "Schemas, die von den Schema-Statistiken ausgenommen sind",
+      "placeholder": "INFORMATION_SCHEMA"
+    },
+    {
+      "key": "sslKeyStore",
+      "type": "string",
+      "description": "JKS-Keystore für SSL-Verbindungen",
+      "placeholder": "/path/to/keystore.jks"
+    },
+    {
+      "key": "sslKeyStorePassword",
+      "type": "secret",
+      "description": "Passwort des Keystores"
+    },
+    {
+      "key": "disableSslHostnameVerification",
+      "type": "boolean",
+      "description": "SSL-Hostnamenprüfung abschalten"
+    }
+  ]
+}

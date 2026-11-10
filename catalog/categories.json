@@ -1,0 +1,21 @@
+{
+  "description": "Reihenfolge der Gruppen in der Seitenleiste",
+  "categories": [
+    "Agent",
+    "Laufzeiten & Tracing",
+    "Datenbanken",
+    "Messaging",
+    "Webserver & Proxys",
+    "Applikationsserver",
+    "Container & Orchestrierung",
+    "Virtualisierung",
+    "Cloud",
+    "Metrik-Schnittstellen",
+    "Infrastruktur-Dienste",
+    "Big Data",
+    "SAP",
+    "Betriebssysteme & Mainframe",
+    "Automation",
+    "Fremdsysteme"
+  ]
+}

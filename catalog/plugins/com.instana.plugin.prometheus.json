@@ -1,0 +1,104 @@
+{
+  "key": "com.instana.plugin.prometheus",
+  "name": "Prometheus",
+  "category": "Metrik-Schnittstellen",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/prometheus/index.html",
+  "source": "ibm-docs",
+  "fields": [
+    {
+      "key": "poll_rate",
+      "type": "integer",
+      "description": "Globales Abfrageintervall",
+      "default": 1,
+      "unit": "s"
+    },
+    {
+      "key": "username",
+      "type": "string",
+      "description": "Globaler Basic-Auth-Benutzer"
+    },
+    {
+      "key": "password",
+      "type": "secret",
+      "description": "Globales Basic-Auth-Passwort"
+    },
+    {
+      "key": "podConnectTimeout",
+      "type": "integer",
+      "description": "Connect-Timeout bei der Discovery",
+      "default": 750,
+      "unit": "ms"
+    },
+    {
+      "key": "podReadTimeout",
+      "type": "integer",
+      "description": "Read-Timeout bei der Discovery",
+      "default": 2500,
+      "unit": "ms"
+    },
+    {
+      "key": "prometheusAnnotations",
+      "type": "enum",
+      "description": "Nach prometheus.io-Annotationen scrapen, ohne customMetricSources",
+      "options": ["strict"]
+    },
+    {
+      "key": "sendCounterMetrics",
+      "type": "boolean",
+      "description": "metrics.counters.* erzeugen",
+      "default": true
+    },
+    {
+      "key": "sendDeltaCounterMetrics",
+      "type": "boolean",
+      "description": "metrics.delta_counters.* erzeugen",
+      "default": true
+    },
+    {
+      "key": "remote_write",
+      "type": "object",
+      "description": "Remote-Write-Endpunkt",
+      "fields": [
+        {
+          "key": "enabled",
+          "type": "boolean",
+          "description": "Remote-Write-Empfang aktivieren"
+        }
+      ]
+    },
+    {
+      "key": "customMetricSources",
+      "type": "objectList",
+      "description": "Scrape-Ziele",
+      "fields": [
+        {
+          "key": "url",
+          "type": "string",
+          "description": "Pfad (Kubernetes) oder vollständige URL",
+          "placeholder": "/metrics"
+        },
+        {
+          "key": "metricNameIncludeRegex",
+          "type": "string",
+          "description": "Regex für die zu übernehmenden Metriken",
+          "placeholder": ".*"
+        },
+        {
+          "key": "username",
+          "type": "string",
+          "description": "Basic-Auth-Benutzer"
+        },
+        {
+          "key": "password",
+          "type": "secret",
+          "description": "Basic-Auth-Passwort"
+        },
+        {
+          "key": "labels",
+          "type": "keyValue",
+          "description": "Nur Pods mit diesen Labels (UND-verknüpft)"
+        }
+      ]
+    }
+  ]
+}

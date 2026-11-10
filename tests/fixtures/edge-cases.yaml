@@ -1,0 +1,22 @@
+# Grenzfälle für den eingebauten YAML-Leser
+com.instana.plugin.prometheus:
+  customMetricSources:
+    - url: '/metrics'            # Kommentar nach Wert
+      metricNameIncludeRegex: "http_.*#kein-kommentar"
+      labels: {app: shop, tier: 'web'}
+  poll_rate: 10
+com.instana.plugin.mysql:
+  conditionOperator: ['>', '>=', <, <=, =, '!=']
+  password: 'it''s secret'
+com.instana.plugin.custom:
+  script: |
+    #!/bin/sh
+    echo "hallo"
+  folded: >-
+    eine lange
+    Zeile
+  flags: [yes, no, on, off, ~, 0x1F, 1.5, -3]
+  nested:
+  - - a
+    - b
+  - c

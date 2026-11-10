@@ -1,0 +1,39 @@
+{
+  "key": "com.instana.plugin.consul",
+  "name": "HashiCorp Consul",
+  "category": "Infrastruktur-Dienste",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/consul/index.html",
+  "source": "ibm-docs",
+  "fields": [
+    {
+      "key": "enabled",
+      "type": "boolean",
+      "description": "Sensor ein/aus",
+      "default": true
+    },
+    {
+      "key": "client",
+      "type": "string",
+      "description": "Hostname des Consul-Agents",
+      "default": "localhost"
+    },
+    {
+      "key": "httpPort",
+      "type": "integer",
+      "description": "HTTP-Port",
+      "default": 8500
+    },
+    {
+      "key": "token",
+      "type": "secret",
+      "description": "ACL-Token (bei acl_default_policy deny)"
+    },
+    {
+      "key": "poll_rate",
+      "type": "integer",
+      "description": "Abfrageintervall (1–3600)",
+      "default": 5,
+      "unit": "s"
+    }
+  ]
+}

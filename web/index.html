@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Instana configuration.yaml Builder</title>
+    <link rel="stylesheet" href="app.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Instana configuration.yaml Builder <small id="ver"></small></h1>
+      <div class="curfile" title="Aktuelle Datei">
+        <span class="lbl">Datei</span><span id="curfile">–</span
+        ><span id="dirty" class="dirty" hidden>geändert</span>
+      </div>
+      <div class="tools">
+        <input type="file" id="file" accept=".yaml,.yml,text/yaml,text/plain" hidden />
+        <button class="btn" id="bNew" title="Leere Konfiguration beginnen">Neu</button>
+        <button class="btn" id="bOpen" title="YAML-Datei einlesen">Öffnen …</button>
+        <button class="btn primary" id="bSave" title="In die aktuelle Datei speichern">Speichern</button>
+        <button class="btn" id="bSaveAs" title="Verzeichnis und Dateinamen wählen">Speichern unter …</button>
+        <span class="vsep"></span>
+        <button class="btn" id="bValidate">Prüfen</button>
+        <button class="btn" id="bCopy">Kopieren</button>
+        <button class="btn" id="bDownload">Herunterladen</button>
+      </div>
+    </header>
+    <main>
+      <aside class="col" id="catalog">
+        <input
+          class="search"
+          id="q"
+          type="search"
+          placeholder="Plugin suchen (Name oder Schlüssel)"
+          aria-label="Plugins durchsuchen"
+        />
+        <div class="filters" role="group" aria-label="Filter">
+          <button class="chip" data-f="all" aria-pressed="true">Alle</button>
+          <button class="chip" data-f="doc" aria-pressed="false">Mit Optionen</button>
+          <button class="chip" data-f="sel" aria-pressed="false">Ausgewählt</button>
+        </div>
+        <div id="cats"></div>
+        <div class="custom">
+          <label for="ckey">Anderen Schlüssel hinzufügen</label>
+          <div class="row">
+            <input id="ckey" placeholder="com.instana.plugin.xyz" spellcheck="false" /><button
+              class="btn"
+              id="cadd"
+            >
+              Hinzufügen
+            </button>
+          </div>
+        </div>
+      </aside>
+      <section class="col" id="editor"></section>
+      <section class="col" id="preview">
+        <div class="pvh">
+          <h2>configuration.yaml</h2>
+          <span class="sp"></span>
+          <label class="opt"><input type="checkbox" id="optComments" /> Beschreibungen als Kommentare</label>
+        </div>
+        <div id="status" class="status info" role="status">
+          Links Plugins auswählen. Die Vorschau aktualisiert sich beim Tippen.
+        </div>
+        <pre id="yaml" aria-label="YAML-Vorschau"></pre>
+      </section>
+    </main>
+    <dialog id="dlg" aria-labelledby="dlgTitle">
+      <form method="dialog" class="dlg" id="dlgForm">
+        <div class="dlg-hd">
+          <h2 id="dlgTitle">Öffnen</h2>
+          <button class="btn small" value="cancel" formnovalidate>Schließen</button>
+        </div>
+        <div class="dlg-path">
+          <button type="button" class="btn small" id="dUp" title="Übergeordnetes Verzeichnis">↑</button
+          ><button type="button" class="btn small" id="dHome" title="Home-Verzeichnis">~</button
+          ><input id="dDir" spellcheck="false" aria-label="Verzeichnis" /><button
+            type="button"
+            class="btn small"
+            id="dGo"
+          >
+            Wechseln
+          </button>
+        </div>
+        <div class="dlg-list" id="dList" role="listbox" aria-label="Dateien"></div>
+        <div class="dlg-name">
+          <label for="dName" id="dNameLbl">Dateiname</label
+          ><input id="dName" spellcheck="false" placeholder="configuration.yaml" />
+        </div>
+        <div class="dlg-msg" id="dMsg" hidden></div>
+        <div class="dlg-ft">
+          <button
+            type="button"
+            class="btn"
+            id="dUpload"
+            title="Datei vom Rechner hochladen (auch per Drag & Drop auf die Seite)"
+          >
+            Datei hochladen …
+          </button>
+          <label class="opt" id="dBakWrap"
+            ><input type="checkbox" id="dBak" checked /> Sicherung (.bak) anlegen</label
+          >
+          <span class="sp"></span>
+          <button type="button" class="btn primary" id="dOk">Öffnen</button>
+        </div>
+      </form>
+    </dialog>
+    <div id="drop" hidden><div>YAML-Datei hier ablegen</div></div>
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+com.instana.secrets:
+  matcher: 'contains-ignore-case'
+  list: ['key','password','secret']
+com.instana.plugin.host:
+  tags: ['prod','palma']
+  collectInstalledSoftware: true
+com.instana.plugin.ibmmq:
+  enabled: true
+  poll_rate: 60
+  queueManagers:
+    QM1:
+      channel: 'SYSTEM.ADMIN.SVRCONN'
+      username: 'mqm'
+com.instana.plugin.javatrace:
+  instrumentation:
+    enabled: true
+    plugins:
+      Redis: false
+com.instana.plugin.mysql:
+  user: 'instana'
+  conditionOperator: ['>', =]
+com.instana.plugin.foo:
+  bar: 1

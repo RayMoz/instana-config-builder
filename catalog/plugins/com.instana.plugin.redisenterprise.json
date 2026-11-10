@@ -1,0 +1,8 @@
+{
+  "key": "com.instana.plugin.redisenterprise",
+  "name": "Redis Enterprise",
+  "category": "Datenbanken",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/index.html",
+  "source": "free",
+  "fields": []
+}

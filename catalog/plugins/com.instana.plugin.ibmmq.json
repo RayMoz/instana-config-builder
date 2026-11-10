@@ -1,0 +1,66 @@
+{
+  "key": "com.instana.plugin.ibmmq",
+  "name": "IBM MQ",
+  "category": "Messaging",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/ibmmq/index.html",
+  "source": "ibm-docs",
+  "fields": [
+    {
+      "key": "enabled",
+      "type": "boolean",
+      "description": "IBM-MQ-Monitoring für diesen Agent aktivieren"
+    },
+    {
+      "key": "poll_rate",
+      "type": "integer",
+      "description": "Abfrageintervall, idealerweise gleich STATINT des Queue Managers",
+      "unit": "s"
+    },
+    {
+      "key": "enableStatisticsQueueMetrics",
+      "type": "boolean",
+      "description": "true: Statistik-Queue statt RESET PCF (nur Linux)",
+      "default": false
+    },
+    {
+      "key": "queueManagers",
+      "type": "namedObjects",
+      "description": "Je Queue Manager die Verbindungsdaten",
+      "keyLabel": "Queue-Manager-Name",
+      "fields": [
+        {
+          "key": "channel",
+          "type": "string",
+          "description": "Administrationskanal",
+          "placeholder": "SYSTEM.ADMIN.SVRCONN"
+        },
+        {
+          "key": "username",
+          "type": "string",
+          "description": "Benutzer (optional)"
+        },
+        {
+          "key": "password",
+          "type": "secret",
+          "description": "Passwort (optional)"
+        },
+        {
+          "key": "keystore",
+          "type": "string",
+          "description": "JKS-Keystore für TLS (optional)"
+        },
+        {
+          "key": "keystorePassword",
+          "type": "secret",
+          "description": "Keystore-Passwort (optional)"
+        },
+        {
+          "key": "cipherSuite",
+          "type": "string",
+          "description": "TLS-Cipher-Suite (optional)",
+          "placeholder": "TLS_RSA_WITH_AES_256_CBC_SHA256"
+        }
+      ]
+    }
+  ]
+}

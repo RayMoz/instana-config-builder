@@ -1,0 +1,37 @@
+{
+  "key": "com.instana.plugin.etcd",
+  "name": "etcd",
+  "category": "Infrastruktur-Dienste",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/etcd/index.html",
+  "source": "ibm-docs",
+  "fields": [
+    {
+      "key": "enabled",
+      "type": "boolean",
+      "description": "Sensor ein/aus",
+      "default": true
+    },
+    {
+      "key": "caCertificate",
+      "type": "string",
+      "description": "Pfad zum CA-Zertifikat"
+    },
+    {
+      "key": "clientCertificate",
+      "type": "string",
+      "description": "Pfad zum Client-Zertifikat"
+    },
+    {
+      "key": "clientKey",
+      "type": "string",
+      "description": "Pfad zum Client-Schlüssel"
+    },
+    {
+      "key": "poll_rate",
+      "type": "integer",
+      "description": "Abfrageintervall",
+      "default": 5,
+      "unit": "s"
+    }
+  ]
+}

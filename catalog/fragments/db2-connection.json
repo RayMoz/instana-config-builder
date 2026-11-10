@@ -1,0 +1,99 @@
+{
+  "description": "Gemeinsame Verbindungs- und Polling-Optionen für Db2 local[] und remote[]",
+  "fields": [
+    {
+      "key": "port",
+      "type": "string",
+      "description": "Listener-Port",
+      "placeholder": "50000"
+    },
+    {
+      "key": "user",
+      "type": "string",
+      "description": "Db2-Benutzer"
+    },
+    {
+      "key": "password",
+      "type": "secret",
+      "description": "Passwort (bei JWT: Token)"
+    },
+    {
+      "key": "databases",
+      "type": "stringList",
+      "description": "Zu überwachende Datenbanken",
+      "placeholder": "SAMPLE"
+    },
+    {
+      "key": "tabschema",
+      "type": "string",
+      "description": "Schemas (kommagetrennt)",
+      "placeholder": "SCHEMA1,SCHEMA2"
+    },
+    {
+      "key": "poll_rate",
+      "type": "integer",
+      "description": "Abfrageintervall",
+      "unit": "s"
+    },
+    {
+      "key": "availabilityZone",
+      "type": "string",
+      "description": "Zone auf der Infrastrukturkarte"
+    },
+    {
+      "key": "sslTrustStoreLocation",
+      "type": "string",
+      "description": "Pfad zum Truststore"
+    },
+    {
+      "key": "sslTrustStorePassword",
+      "type": "secret",
+      "description": "Truststore-Passwort"
+    },
+    {
+      "key": "accessTokenType",
+      "type": "enum",
+      "description": "Token-Authentifizierung (password enthält dann das Token)",
+      "options": ["JWT"]
+    },
+    {
+      "key": "loginTimeout",
+      "type": "integer",
+      "description": "Max. Wartezeit beim Verbindungsaufbau",
+      "default": 5,
+      "unit": "s"
+    },
+    {
+      "key": "lockAndLongQueryInterval",
+      "type": "integer",
+      "description": "Schwelle für Long Queries und Lock Waits",
+      "default": 100,
+      "unit": "s"
+    },
+    {
+      "key": "customRunStatsPollRate",
+      "type": "integer",
+      "description": "Intervall für Runstats-/Reorg-Metriken",
+      "default": 180,
+      "unit": "min"
+    },
+    {
+      "key": "tableSizeRowsLimit",
+      "type": "integer",
+      "description": "Zeilen für Tabellengrößen je Schema",
+      "default": 50
+    },
+    {
+      "key": "custom_polling",
+      "type": "yaml",
+      "description": "disabled_metrics und poll_rate_1..4 mit poll_interval und metrics",
+      "example": "poll_rate_1:\n  poll_interval: 300\n  metrics: 'TABLE_SPACE_UTILIZATION'"
+    },
+    {
+      "key": "metrics",
+      "type": "yaml",
+      "description": "Eigene Metriken (enabled, poll_rate, entities)",
+      "example": "enabled: true\npoll_rate: 60\nentities:\n  bufferpool:\n    source: 'TABLE(MON_GET_BUFFERPOOL(NULL,-2))'\n    display_name_keys: ['BP_NAME']\n    metrics: ['POOL_DATA_L_READS']"
+    }
+  ]
+}

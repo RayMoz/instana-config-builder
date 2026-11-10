@@ -1,0 +1,65 @@
+{
+  "key": "com.instana.tracing",
+  "name": "Tracing (agentweit)",
+  "category": "Laufzeiten & Tracing",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/admin/optimize-data-ingest-in-instana.html",
+  "source": "ibm-docs",
+  "fields": [
+    {
+      "key": "kafka",
+      "type": "object",
+      "description": "Kafka-Trace-Korrelation",
+      "fields": [
+        {
+          "key": "trace-correlation",
+          "type": "boolean",
+          "description": "Kafka-Trace-Korrelation ein/aus"
+        },
+        {
+          "key": "header-format",
+          "type": "enum",
+          "description": "Format der Korrelations-Header",
+          "options": ["binary", "string", "both"]
+        }
+      ]
+    },
+    {
+      "key": "ignore-endpoints",
+      "type": "object",
+      "description": "Exit-Calls vom Tracing ausnehmen",
+      "fields": [
+        {
+          "key": "redis",
+          "type": "stringList",
+          "description": "Redis-Kommandos",
+          "placeholder": "GET"
+        },
+        {
+          "key": "dynamodb",
+          "type": "stringList",
+          "description": "DynamoDB-Operationen",
+          "placeholder": "Query"
+        },
+        {
+          "key": "kafka",
+          "type": "yaml",
+          "description": "Kafka: Methoden (consume, send, *) und Topics",
+          "example": "- methods: ['consume']\n  endpoints: ['healthcheck-topic']"
+        }
+      ]
+    },
+    {
+      "key": "filter",
+      "type": "object",
+      "description": "Spans per Attribut verwerfen (Java HTTP und JDBC)",
+      "fields": [
+        {
+          "key": "exclude",
+          "type": "yaml",
+          "description": "Regeln mit name und attributes (key, values, match_type: endswith|contains)",
+          "example": "- name: 'Health-Checks'\n  attributes:\n    - key: 'http.url'\n      values: ['/health', '/ready']\n      match_type: 'endswith'"
+        }
+      ]
+    }
+  ]
+}

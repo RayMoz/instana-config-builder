@@ -1,0 +1,28 @@
+{
+  "key": "com.instana.plugin.activemq",
+  "name": "ActiveMQ",
+  "category": "Messaging",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/activeMQ/index.html",
+  "source": "ibm-docs",
+  "fields": [
+    {
+      "key": "poll_rate",
+      "type": "integer",
+      "description": "Abfrageintervall",
+      "default": 1,
+      "unit": "s"
+    },
+    {
+      "key": "monitorQueues",
+      "type": "stringList",
+      "description": "Queues mit Detailmetriken (max. 100)",
+      "placeholder": "orders"
+    },
+    {
+      "key": "monitorTopics",
+      "type": "stringList",
+      "description": "Topics mit Detailmetriken (max. 100)",
+      "placeholder": "events"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+com.instana.plugin.host:
+  filesystems:
+    include: ['/dev/xvdd', 'tmpfs:/tmp']
+    exclude: ['/dev/xvda2']
+  getFileInfo: true

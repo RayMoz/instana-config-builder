@@ -1,0 +1,8 @@
+{
+  "key": "com.instana.plugin.ace",
+  "name": "IBM App Connect Enterprise",
+  "category": "Messaging",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/ace/ace_sensor_configuration.html",
+  "source": "free",
+  "fields": []
+}

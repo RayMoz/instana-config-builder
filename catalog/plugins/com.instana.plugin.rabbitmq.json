@@ -1,0 +1,62 @@
+{
+  "key": "com.instana.plugin.rabbitmq",
+  "name": "RabbitMQ",
+  "category": "Messaging",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/rabbitmq/index.html",
+  "source": "ibm-docs",
+  "fields": [
+    {
+      "key": "user",
+      "type": "string",
+      "description": "Benutzer der Management-API",
+      "placeholder": "guest"
+    },
+    {
+      "key": "password",
+      "type": "secret",
+      "description": "Passwort der Management-API"
+    },
+    {
+      "key": "poll_rate",
+      "type": "integer",
+      "description": "Abfrageintervall",
+      "default": 5,
+      "unit": "s"
+    },
+    {
+      "key": "contextPath",
+      "type": "string",
+      "description": "Pfad der Management-API, falls nicht im Root",
+      "placeholder": "/rabbitmq"
+    },
+    {
+      "key": "queuesRegex",
+      "type": "string",
+      "description": "Regex für die überwachten Queues"
+    },
+    {
+      "key": "queuesBasePath",
+      "type": "string",
+      "description": "Basispfad der Queues-API",
+      "default": "/api/queues/"
+    },
+    {
+      "key": "monitorQueues",
+      "type": "objectList",
+      "description": "Queues für Detailüberwachung (max. 1000)",
+      "fields": [
+        {
+          "key": "queue",
+          "type": "string",
+          "description": "Queue-Name"
+        },
+        {
+          "key": "vhost",
+          "type": "string",
+          "description": "Virtual Host",
+          "default": "/"
+        }
+      ]
+    }
+  ]
+}

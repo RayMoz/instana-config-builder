@@ -1,0 +1,94 @@
+{
+  "key": "com.instana.plugin.host",
+  "name": "Host (Linux)",
+  "category": "Agent",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/host/linux_host.html",
+  "source": "ibm-docs",
+  "note": "Optionen laut „Monitoring a Linux host“ (IBM-Doku 1.0.325), tags laut Beispielkonfiguration des Agents. Standardmäßig überwacht Instana nur lokale Dateisysteme.",
+  "fields": [
+    {
+      "key": "tags",
+      "type": "stringList",
+      "description": "Tags für diesen Host (in Dynamic Focus als entity.tag nutzbar)",
+      "placeholder": "production"
+    },
+    {
+      "key": "filesystems",
+      "type": "oneOf",
+      "description": "Überwachte Dateisysteme: Gerätenamen, tmpfs:/mount/point oder server:/export",
+      "alternatives": [
+        {
+          "type": "stringList",
+          "description": "Genau diese Dateisysteme überwachen",
+          "placeholder": "/dev/sda1",
+          "example": ["/dev/sda1", "tmpfs:/sys/fs/cgroup", "server:/usr/local/pub"],
+          "label": "Liste"
+        },
+        {
+          "type": "object",
+          "label": "Include / Exclude",
+          "fields": [
+            {
+              "key": "include",
+              "type": "stringList",
+              "description": "Zusätzlich einschließen",
+              "placeholder": "/dev/xvdd"
+            },
+            {
+              "key": "exclude",
+              "type": "stringList",
+              "description": "Ausschließen",
+              "placeholder": "/dev/xvda2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "nfs_all",
+      "type": "boolean",
+      "description": "Alle NFS-Mounts überwachen"
+    },
+    {
+      "key": "configDisk",
+      "type": "enum",
+      "description": "Disk-Monitoring: alle Disks, nur die Top 20 oder aus",
+      "default": "all",
+      "options": ["all", "top20", "false"],
+      "unquoted": true
+    },
+    {
+      "key": "collectInstalledSoftware",
+      "type": "boolean",
+      "description": "Installierte Pakete täglich auslesen (dpkg bzw. rpm/yum)"
+    },
+    {
+      "key": "combineTopProcesses",
+      "type": "boolean",
+      "description": "Top-10 nach CPU und Speicher zu einer Liste (bis 20 Prozesse) zusammenfassen"
+    },
+    {
+      "key": "getFileInfo",
+      "type": "boolean",
+      "description": "Attribute der 10 größten Dateien/Verzeichnisse unter / erfassen"
+    },
+    {
+      "key": "collectPagingActivity",
+      "type": "boolean",
+      "description": "Paging-Aktivität erfassen",
+      "default": false
+    },
+    {
+      "key": "collectSystemProcess",
+      "type": "boolean",
+      "description": "Prozessstatistiken erfassen",
+      "default": false
+    },
+    {
+      "key": "collectRpcActivity",
+      "type": "boolean",
+      "description": "RPC-Client- und -Server-Aktivität erfassen",
+      "default": false
+    }
+  ]
+}

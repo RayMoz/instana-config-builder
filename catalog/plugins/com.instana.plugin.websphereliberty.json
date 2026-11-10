@@ -1,0 +1,8 @@
+{
+  "key": "com.instana.plugin.websphereliberty",
+  "name": "WebSphere Liberty",
+  "category": "Applikationsserver",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/websphere-liberty/index.html",
+  "source": "free",
+  "fields": []
+}

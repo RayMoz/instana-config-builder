@@ -1,0 +1,21 @@
+{
+  "key": "com.instana.plugin.process",
+  "name": "Eigene Prozesse",
+  "category": "Agent",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/setup_and_manage/host_agent/configuration/index.html",
+  "source": "agent-template",
+  "fields": [
+    {
+      "key": "processes",
+      "type": "stringList",
+      "description": "Prozessnamen, die zusätzlich überwacht werden",
+      "placeholder": "sshd"
+    },
+    {
+      "key": "arguments",
+      "type": "stringList",
+      "description": "Argumente, die einen Prozess als überwacht kennzeichnen",
+      "placeholder": "/opt/script.sh"
+    }
+  ]
+}

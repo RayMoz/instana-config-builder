@@ -1,0 +1,51 @@
+{
+  "key": "com.instana.plugin.db2",
+  "name": "IBM Db2",
+  "category": "Datenbanken",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/db2/index.html",
+  "source": "ibm-docs",
+  "fields": [
+    {
+      "key": "local",
+      "type": "objectList",
+      "description": "Lokale Instanzen",
+      "fields": [
+        {
+          "key": "instance",
+          "type": "string",
+          "description": "Instanzname (Windows: Instanz-Owner)",
+          "placeholder": "db2inst1"
+        },
+        {
+          "key": "host",
+          "type": "string",
+          "description": "Hostname (nur Db2 auf OpenShift)"
+        },
+        {
+          "key": "environment",
+          "type": "enum",
+          "description": "Nur für Db2 auf OpenShift",
+          "options": ["OCP"]
+        },
+        {
+          "$ref": "db2-connection"
+        }
+      ]
+    },
+    {
+      "key": "remote",
+      "type": "objectList",
+      "description": "Remote-Instanzen",
+      "fields": [
+        {
+          "key": "host",
+          "type": "string",
+          "description": "Hostname/IP des Db2-Servers"
+        },
+        {
+          "$ref": "db2-connection"
+        }
+      ]
+    }
+  ]
+}

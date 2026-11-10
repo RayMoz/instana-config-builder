@@ -1,0 +1,86 @@
+{
+  "description": "Ziel des konfigurationsbasierten .NET Trace SDK (match + span)",
+  "fields": [
+    {
+      "key": "match",
+      "type": "object",
+      "description": "Welche Methode instrumentiert wird",
+      "fields": [
+        {
+          "key": "type",
+          "type": "enum",
+          "description": "Art des Ziels (nur class)",
+          "options": ["class"]
+        },
+        {
+          "key": "class",
+          "type": "string",
+          "description": "Voll qualifizierter Klassenname (verschachtelt: Outer$Nested)",
+          "placeholder": "Example.BatchJobStarter"
+        },
+        {
+          "key": "method",
+          "type": "string",
+          "description": "Methodenname",
+          "placeholder": "ExecuteJob"
+        },
+        {
+          "key": "arguments",
+          "type": "integer",
+          "description": "Anzahl der Argumente (wählt Überladungen; 0 = keine)",
+          "placeholder": "1"
+        }
+      ]
+    },
+    {
+      "key": "span",
+      "type": "object",
+      "description": "Erzeugter Span",
+      "fields": [
+        {
+          "key": "name",
+          "type": "string",
+          "description": "Span-Name",
+          "placeholder": "BatchJob"
+        },
+        {
+          "key": "type",
+          "type": "enum",
+          "description": "ENTRY = eingehend, EXIT = ausgehend, INTERMEDIATE = intern",
+          "default": "INTERMEDIATE",
+          "options": ["ENTRY", "INTERMEDIATE", "EXIT"]
+        },
+        {
+          "key": "tags",
+          "type": "objectList",
+          "description": "Tags am Span",
+          "fields": [
+            {
+              "key": "kind",
+              "type": "enum",
+              "description": "Herkunft: fester Wert, Argument oder Rückgabewert",
+              "options": ["constant", "argument", "return"]
+            },
+            {
+              "key": "name",
+              "type": "string",
+              "description": "Tag-Name",
+              "placeholder": "batch.job"
+            },
+            {
+              "key": "value",
+              "type": "string",
+              "description": "Fester Wert (nur bei kind: constant)"
+            },
+            {
+              "key": "index",
+              "type": "integer",
+              "description": "Argument-Position ab 0 (nur bei kind: argument)",
+              "placeholder": "0"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

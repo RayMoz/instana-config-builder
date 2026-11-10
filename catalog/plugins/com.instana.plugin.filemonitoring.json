@@ -1,0 +1,27 @@
+{
+  "key": "com.instana.plugin.filemonitoring",
+  "name": "Datei- & Verzeichnisüberwachung",
+  "category": "Agent",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/filemonitoring/index.html",
+  "source": "ibm-docs",
+  "fields": [
+    {
+      "key": "enabled",
+      "type": "boolean",
+      "description": "Sensor aktivieren"
+    },
+    {
+      "key": "checksum_file_size",
+      "type": "integer",
+      "description": "Größenlimit für Checksummen-Überwachung",
+      "default": 10,
+      "unit": "MB"
+    },
+    {
+      "key": "file_events",
+      "type": "yaml",
+      "description": "Erstes Listenelement: event_intervals (max. 4). Danach je Monitor path, conditions, name, interval, severity (WARNING|CRITICAL). Verzeichnispfade enden mit /",
+      "example": "- event_intervals:\n    - interval_1: 300\n    - interval_2: 3600\n- path: '/var/log/app/'\n  conditions:\n    - 'FILE_COUNT > 100'\n  name: 'app-logdir'\n  interval: 'interval_1'\n  severity: 'WARNING'"
+    }
+  ]
+}

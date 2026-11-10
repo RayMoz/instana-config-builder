@@ -1,0 +1,8 @@
+{
+  "key": "com.instana.plugin.traefik",
+  "name": "Traefik",
+  "category": "Webserver & Proxys",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/traefik/index.html",
+  "source": "free",
+  "fields": []
+}

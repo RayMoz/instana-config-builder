@@ -1,0 +1,47 @@
+{
+  "key": "com.instana.plugin.tibcoems",
+  "name": "TIBCO EMS",
+  "category": "Messaging",
+  "docs": "https://www.ibm.com/docs/SSE1JP5_current/src/pages/ecosystem/tibco-ems/index.html",
+  "source": "ibm-docs",
+  "fields": [
+    {
+      "key": "poll_rate",
+      "type": "integer",
+      "description": "Abfrageintervall",
+      "default": 5,
+      "unit": "s"
+    },
+    {
+      "key": "user",
+      "type": "string",
+      "description": "Benutzer",
+      "default": "admin"
+    },
+    {
+      "key": "password",
+      "type": "secret",
+      "description": "Passwort"
+    },
+    {
+      "key": "hostname",
+      "type": "string",
+      "description": "Hostname, falls die automatische Auflösung nicht passt"
+    },
+    {
+      "key": "port",
+      "type": "string",
+      "description": "Port, falls die automatische Auflösung nicht passt"
+    },
+    {
+      "key": "queuesRegex",
+      "type": "string",
+      "description": "Regex für überwachte Queues"
+    },
+    {
+      "key": "topicsRegex",
+      "type": "string",
+      "description": "Regex für überwachte Topics"
+    }
+  ]
+}

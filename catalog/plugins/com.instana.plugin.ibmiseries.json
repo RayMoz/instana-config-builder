@@ -1,0 +1,79 @@
+{
+  "key": "com.instana.plugin.ibmiseries",
+  "name": "IBM i",
+  "category": "Betriebssysteme & Mainframe",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/ibmios/index.html",
+  "source": "ibm-docs",
+  "fields": [
+    {
+      "key": "enabled",
+      "type": "boolean",
+      "description": "Sensor aktivieren"
+    },
+    {
+      "key": "remote",
+      "type": "objectList",
+      "description": "Remote überwachte IBM-i-Systeme",
+      "fields": [
+        {
+          "key": "host",
+          "type": "string",
+          "description": "Hostname"
+        },
+        {
+          "key": "sslEnabled",
+          "type": "boolean",
+          "description": "Gesicherte Verbindung"
+        },
+        {
+          "key": "user",
+          "type": "string",
+          "description": "Benutzerprofil"
+        },
+        {
+          "key": "password",
+          "type": "secret",
+          "description": "Passwort"
+        },
+        {
+          "key": "availabilityZone",
+          "type": "string",
+          "description": "Zone auf der Infrastrukturkarte"
+        },
+        {
+          "key": "poll_rate_configuration",
+          "type": "object",
+          "description": "Abfrageintervalle",
+          "fields": [
+            {
+              "key": "os_poll_rate",
+              "type": "integer",
+              "description": "OS-Metriken",
+              "default": 15,
+              "unit": "s"
+            },
+            {
+              "key": "db2_poll_rate",
+              "type": "integer",
+              "description": "Db2-Metriken",
+              "default": 15,
+              "unit": "s"
+            }
+          ]
+        },
+        {
+          "key": "user_specification",
+          "type": "yaml",
+          "description": "Jobs, Audit-Journal, Message-Queues, Subsysteme, Ports (siehe Doku)",
+          "example": "activeJobs:\n  jobs: 'QZDASOINIT,QTCP*'\n  rowLimit: 20\nmessageQueue:\n  filter:\n    library/queueName: 'QSYS/QSYSOPR'\n    timeFrame: '10 MINUTES'"
+        }
+      ]
+    },
+    {
+      "key": "local",
+      "type": "yaml",
+      "description": "Lokales Monitoring: poll_rate_configuration und user_specification wie bei remote",
+      "example": "poll_rate_configuration:\n  os_poll_rate: 15\n  db2_poll_rate: 15"
+    }
+  ]
+}

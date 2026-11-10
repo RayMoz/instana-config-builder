@@ -1,0 +1,8 @@
+{
+  "key": "com.instana.plugin.aws.sns",
+  "name": "AWS SNS",
+  "category": "Cloud",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/aws-sns/index.html",
+  "source": "free",
+  "fields": []
+}

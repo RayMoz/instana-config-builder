@@ -1,0 +1,21 @@
+{
+  "key": "com.instana.plugin.generic.hardware",
+  "name": "Hardware & Zone",
+  "category": "Agent",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/setup_and_manage/host_agent/configuration/index.html",
+  "source": "agent-template",
+  "fields": [
+    {
+      "key": "enabled",
+      "type": "boolean",
+      "description": "Hardware-/Zonen-Erkennung aktivieren (standardmäßig aus)",
+      "default": false
+    },
+    {
+      "key": "availability-zone",
+      "type": "string",
+      "description": "Zone, in der der Host auf der Infrastrukturkarte gruppiert wird",
+      "placeholder": "Datacenter Palma"
+    }
+  ]
+}

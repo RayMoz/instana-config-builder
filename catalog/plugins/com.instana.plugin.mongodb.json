@@ -1,0 +1,87 @@
+{
+  "key": "com.instana.plugin.mongodb",
+  "name": "MongoDB",
+  "category": "Datenbanken",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/mongodb/index.html",
+  "source": "ibm-docs",
+  "fields": [
+    {
+      "key": "user",
+      "type": "string",
+      "description": "Benutzer"
+    },
+    {
+      "key": "password",
+      "type": "secret",
+      "description": "Passwort"
+    },
+    {
+      "key": "source",
+      "type": "string",
+      "description": "Datenbank, in der der Benutzer definiert ist"
+    },
+    {
+      "key": "host",
+      "type": "string",
+      "description": "Hostname/FQDN für die Verbindung (Standard: erster bindIp-Eintrag)"
+    },
+    {
+      "key": "poll_rate",
+      "type": "object",
+      "description": "Abfrageintervalle",
+      "fields": [
+        {
+          "key": "general_metrics",
+          "type": "integer",
+          "description": "Allgemeine Metriken",
+          "default": 1,
+          "unit": "s"
+        },
+        {
+          "key": "replicaset_metrics",
+          "type": "integer",
+          "description": "Replica-Set-Status",
+          "default": 30,
+          "unit": "s"
+        }
+      ]
+    },
+    {
+      "key": "sslTrustStore",
+      "type": "string",
+      "description": "JKS-Truststore"
+    },
+    {
+      "key": "sslTrustStorePassword",
+      "type": "secret",
+      "description": "Truststore-Passwort"
+    },
+    {
+      "key": "sslKeyStore",
+      "type": "string",
+      "description": "JKS-Keystore"
+    },
+    {
+      "key": "sslKeyStorePassword",
+      "type": "secret",
+      "description": "Keystore-Passwort"
+    },
+    {
+      "key": "atlas",
+      "type": "objectList",
+      "description": "MongoDB Atlas: API-Schlüssel je Organisation",
+      "fields": [
+        {
+          "key": "publicKey",
+          "type": "string",
+          "description": "Public Key"
+        },
+        {
+          "key": "privateKey",
+          "type": "secret",
+          "description": "Private Key"
+        }
+      ]
+    }
+  ]
+}

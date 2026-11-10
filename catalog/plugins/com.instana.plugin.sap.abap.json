@@ -1,0 +1,134 @@
+{
+  "key": "com.instana.plugin.sap.abap",
+  "name": "SAP ABAP",
+  "category": "SAP",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/sap_monitoring/abap_sensor.html",
+  "source": "ibm-docs",
+  "fields": [
+    {
+      "key": "local",
+      "type": "objectList",
+      "description": "Lokale Instanzen",
+      "fields": [
+        {
+          "key": "sysnr",
+          "type": "string",
+          "description": "Instanznummer",
+          "placeholder": "72"
+        },
+        {
+          "key": "client",
+          "type": "string",
+          "description": "Mandant",
+          "placeholder": "100"
+        },
+        {
+          "key": "user",
+          "type": "string",
+          "description": "Benutzer"
+        },
+        {
+          "key": "password",
+          "type": "secret",
+          "description": "Passwort"
+        },
+        {
+          "key": "lang",
+          "type": "string",
+          "description": "Anmeldesprache",
+          "default": "en"
+        },
+        {
+          "key": "pool_capacity",
+          "type": "string",
+          "description": "Max. Verbindungen"
+        },
+        {
+          "key": "libpath",
+          "type": "string",
+          "description": "Ordner mit den JCo-Bibliotheken"
+        },
+        {
+          "key": "poll_rate",
+          "type": "integer",
+          "description": "Abfrageintervall",
+          "default": 60,
+          "unit": "s"
+        }
+      ]
+    },
+    {
+      "key": "remote",
+      "type": "objectList",
+      "description": "Remote: direkt (host+sysnr) oder über Message-Server (host+port+type+group)",
+      "fields": [
+        {
+          "key": "host",
+          "type": "string",
+          "description": "Host/IP der Instanz oder des Message-Servers"
+        },
+        {
+          "key": "sysnr",
+          "type": "string",
+          "description": "Instanznummer (Direktverbindung)"
+        },
+        {
+          "key": "port",
+          "type": "string",
+          "description": "Message-Server-Port",
+          "placeholder": "3600"
+        },
+        {
+          "key": "type",
+          "type": "enum",
+          "description": "Nur für Verbindung über Message-Server",
+          "options": ["message_server"]
+        },
+        {
+          "key": "group",
+          "type": "string",
+          "description": "Logon-Gruppe (Message-Server)",
+          "default": "PUBLIC"
+        },
+        {
+          "key": "client",
+          "type": "string",
+          "description": "Mandant"
+        },
+        {
+          "key": "user",
+          "type": "string",
+          "description": "Benutzer"
+        },
+        {
+          "key": "password",
+          "type": "secret",
+          "description": "Passwort"
+        },
+        {
+          "key": "lang",
+          "type": "string",
+          "description": "Anmeldesprache",
+          "default": "en"
+        },
+        {
+          "key": "pool_capacity",
+          "type": "string",
+          "description": "Max. Verbindungen"
+        },
+        {
+          "key": "libpath",
+          "type": "string",
+          "description": "Ordner mit den JCo-Bibliotheken"
+        },
+        {
+          "key": "poll_rate",
+          "type": "integer",
+          "description": "Abfrageintervall",
+          "default": 60,
+          "unit": "s"
+        }
+      ]
+    }
+  ]
+}

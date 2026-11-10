@@ -1,0 +1,119 @@
+{
+  "key": "com.instana.plugin.azure",
+  "name": "Microsoft Azure",
+  "category": "Cloud",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/azure/index.html",
+  "source": "ibm-docs",
+  "fields": [
+    {
+      "key": "enabled",
+      "type": "boolean",
+      "description": "Azure-Sensor aktivieren"
+    },
+    {
+      "key": "tenant",
+      "type": "string",
+      "description": "Tenant-ID"
+    },
+    {
+      "key": "subscription",
+      "type": "string",
+      "description": "Einzelne Subscription-ID"
+    },
+    {
+      "key": "principals",
+      "type": "objectList",
+      "description": "Service Principals (Einzel-Subscription)",
+      "fields": [
+        {
+          "key": "id",
+          "type": "string",
+          "description": "Client-ID"
+        },
+        {
+          "key": "secret",
+          "type": "secret",
+          "description": "Client-Secret"
+        }
+      ]
+    },
+    {
+      "key": "subscriptions",
+      "type": "objectList",
+      "description": "Mehrere Subscriptions (Sensor 1.3.x+)",
+      "fields": [
+        {
+          "key": "id",
+          "type": "string",
+          "description": "Subscription-ID"
+        },
+        {
+          "key": "principals",
+          "type": "objectList",
+          "description": "Service Principals",
+          "fields": [
+            {
+              "key": "id",
+              "type": "string",
+              "description": "Client-ID"
+            },
+            {
+              "key": "secret",
+              "type": "secret",
+              "description": "Client-Secret"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "cloud",
+      "type": "enum",
+      "description": "Azure-Cloud-Endpunkt",
+      "default": "AzurePublicCloud",
+      "options": ["AzurePublicCloud", "AzureChinaCloud", "AzureUSGovernmentCloud", "AzureGermanCloud"]
+    },
+    {
+      "key": "include_tags",
+      "type": "string",
+      "description": "Nur Ressourcen mit diesen Tags (key:value, kommagetrennt)",
+      "placeholder": "env:prod"
+    },
+    {
+      "key": "exclude_tags",
+      "type": "string",
+      "description": "Ressourcen mit diesen Tags ausschließen"
+    },
+    {
+      "key": "include_resource_groups",
+      "type": "string",
+      "description": "Nur diese Ressourcengruppen (kommagetrennt)"
+    },
+    {
+      "key": "exclude_resource_groups",
+      "type": "string",
+      "description": "Diese Ressourcengruppen ausschließen"
+    },
+    {
+      "key": "proxy_host",
+      "type": "string",
+      "description": "Proxy-Host"
+    },
+    {
+      "key": "proxy_port",
+      "type": "integer",
+      "description": "Proxy-Port",
+      "placeholder": "3128"
+    },
+    {
+      "key": "proxy_username",
+      "type": "string",
+      "description": "Proxy-Benutzer"
+    },
+    {
+      "key": "proxy_password",
+      "type": "secret",
+      "description": "Proxy-Passwort"
+    }
+  ]
+}

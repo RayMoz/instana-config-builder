@@ -1,0 +1,32 @@
+{
+  "key": "com.instana.plugin.netcore",
+  "name": ".NET / .NET Core – deklaratives SDK",
+  "category": "Laufzeiten & Tracing",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/tracing/dotnet-core-configuration-sdk.html",
+  "source": "ibm-docs",
+  "note": "Die IBM-Doku nennt für .NET Core den Schlüssel com.instana.plugin.netcore, ihr Beispiel verwendet aber com.instana.plugin.clr. Im Zweifel beide Varianten testen oder die Ziele unter .NET Framework (CLR) eintragen.",
+  "fields": [
+    {
+      "key": "instrumentation",
+      "type": "object",
+      "description": "Instrumentierung",
+      "fields": [
+        {
+          "key": "sdk",
+          "type": "object",
+          "description": "Konfigurationsbasiertes Trace SDK",
+          "fields": [
+            {
+              "key": "targets",
+              "type": "objectList",
+              "description": "Je Eintrag ein Span für eine Methode",
+              "fields": {
+                "$ref": "dotnet-sdk-target"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

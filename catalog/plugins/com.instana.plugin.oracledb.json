@@ -1,0 +1,112 @@
+{
+  "key": "com.instana.plugin.oracledb",
+  "name": "Oracle Database",
+  "category": "Datenbanken",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/oracledb/index.html",
+  "source": "ibm-docs",
+  "fields": [
+    {
+      "key": "user",
+      "type": "string",
+      "description": "Datenbankbenutzer",
+      "default": "sys as sysdba"
+    },
+    {
+      "key": "password",
+      "type": "secret",
+      "description": "Passwort"
+    },
+    {
+      "key": "host",
+      "type": "string",
+      "description": "Host der lokalen Datenbank",
+      "default": "127.0.0.1"
+    },
+    {
+      "key": "port",
+      "type": "string",
+      "description": "Listener-Port",
+      "default": "1521"
+    },
+    {
+      "key": "databaseSID",
+      "type": "string",
+      "description": "SID (Standard: aus Prozessargumenten, sonst orcl)"
+    },
+    {
+      "key": "poll_rate",
+      "type": "integer",
+      "description": "Abfrageintervall",
+      "default": 1,
+      "unit": "s"
+    },
+    {
+      "key": "remote",
+      "type": "objectList",
+      "description": "Remote-Datenbanken",
+      "fields": [
+        {
+          "key": "host",
+          "type": "string",
+          "description": "Host"
+        },
+        {
+          "key": "port",
+          "type": "string",
+          "description": "Listener-Port"
+        },
+        {
+          "key": "user",
+          "type": "string",
+          "description": "Benutzer",
+          "default": "sys as sysdba"
+        },
+        {
+          "key": "password",
+          "type": "secret",
+          "description": "Passwort"
+        },
+        {
+          "key": "databaseSID",
+          "type": "string",
+          "description": "SID (alternativ zu databaseServiceName)"
+        },
+        {
+          "key": "databaseServiceName",
+          "type": "string",
+          "description": "Service-Name (alternativ zur SID)"
+        },
+        {
+          "key": "availabilityZone",
+          "type": "string",
+          "description": "Zone auf der Infrastrukturkarte"
+        },
+        {
+          "key": "enableUniqueIdentifier",
+          "type": "boolean",
+          "description": "Gleichnamige SIDs/Services unterscheiden",
+          "default": false
+        },
+        {
+          "key": "poll_rate",
+          "type": "integer",
+          "description": "Abfrageintervall",
+          "default": 1,
+          "unit": "s"
+        }
+      ]
+    },
+    {
+      "key": "customPolling",
+      "type": "yaml",
+      "description": "Bis zu drei Gruppen mit eigenem poll_rate und metrics-Liste (z. B. TOP_ELAPSED_TIME_QUERIES)",
+      "example": "- poll_rate: 300\n  metrics:\n    - TOP_ELAPSED_TIME_QUERIES\n    - CURRENT_BLOCKING_SESSIONS"
+    },
+    {
+      "key": "metrics",
+      "type": "yaml",
+      "description": "Eigene Metriken aus Views/Tabellen (enabled, poll_rate, entities)",
+      "example": "enabled: true\npoll_rate: 60\nentities:\n  tablespace:\n    source: DBA_TABLESPACE_USAGE_METRICS\n    display_name_keys:\n      - TABLESPACE_NAME\n    metrics:\n      - USED_PERCENT"
+    }
+  ]
+}

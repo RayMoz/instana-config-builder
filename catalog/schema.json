@@ -1,0 +1,328 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "instana-config-builder/catalog/schema.json",
+  "title": "Instana configuration.yaml Builder – Plugin-Katalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["key", "name", "category", "fields"],
+  "properties": {
+    "key": {
+      "type": "string",
+      "pattern": "^com\\.instana\\.[A-Za-z0-9_.\\-]+$",
+      "description": "Schlüssel der obersten Ebene, gleich dem Dateinamen"
+    },
+    "name": {
+      "type": "string",
+      "description": "Anzeigename"
+    },
+    "category": {
+      "type": "string",
+      "description": "Gruppe in der Seitenleiste, muss in categories.json stehen"
+    },
+    "docs": {
+      "type": ["string", "null"],
+      "format": "uri",
+      "description": "Link zur Dokumentation"
+    },
+    "source": {
+      "enum": ["ibm-docs", "agent-template", "free", "user"],
+      "description": "Herkunft der Optionen"
+    },
+    "note": {
+      "type": "string",
+      "description": "Hinweis, der oben auf der Karte erscheint"
+    },
+    "fields": {
+      "$ref": "#/definitions/fieldList"
+    }
+  },
+  "definitions": {
+    "fieldList": {
+      "oneOf": [
+        {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/definitions/field"
+              },
+              {
+                "$ref": "#/definitions/ref"
+              }
+            ]
+          }
+        },
+        {
+          "$ref": "#/definitions/ref"
+        }
+      ]
+    },
+    "ref": {
+      "type": "object",
+      "required": ["$ref"],
+      "additionalProperties": false,
+      "properties": {
+        "$ref": {
+          "type": "string",
+          "description": "Name eines Fragments in catalog/fragments/"
+        }
+      }
+    },
+    "field": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "type"],
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "Schlüssel in der configuration.yaml"
+        },
+        "type": {
+          "enum": [
+            "string",
+            "secret",
+            "integer",
+            "boolean",
+            "enum",
+            "stringList",
+            "keyValue",
+            "object",
+            "objectList",
+            "namedObjects",
+            "yaml",
+            "oneOf"
+          ],
+          "description": "Feldtyp, bestimmt das Eingabeelement und die YAML-Ausgabe"
+        },
+        "description": {
+          "type": "string",
+          "description": "Kurzbeschreibung (deutsch), erscheint im Formular und optional als Kommentar"
+        },
+        "default": {
+          "description": "Dokumentierter Standardwert (nur Anzeige, wird nicht geschrieben)"
+        },
+        "unit": {
+          "type": "string",
+          "description": "Einheit, z. B. s, ms, MB"
+        },
+        "placeholder": {
+          "type": "string"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Erlaubte Werte (Pflicht bei enum)"
+        },
+        "suggestions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Vorschläge für string-Felder"
+        },
+        "example": {
+          "description": "Beispielwert (stringList: Liste, yaml: Text)"
+        },
+        "unquoted": {
+          "type": "boolean",
+          "description": "enum-Wert ohne Anführungszeichen schreiben (z. B. für false)"
+        },
+        "keyLabel": {
+          "type": "string",
+          "description": "Beschriftung des Namensfelds bei namedObjects"
+        },
+        "keyPlaceholder": {
+          "type": "string"
+        },
+        "valueType": {
+          "enum": [
+            "string",
+            "secret",
+            "integer",
+            "boolean",
+            "enum",
+            "stringList",
+            "keyValue",
+            "object",
+            "objectList",
+            "namedObjects",
+            "yaml",
+            "oneOf"
+          ],
+          "description": "Werttyp bei keyValue (z. B. boolean)"
+        },
+        "label": {
+          "type": "string",
+          "description": "Beschriftung einer oneOf-Alternative"
+        },
+        "os": {
+          "type": "array",
+          "items": {
+            "enum": ["linux", "aix", "windows", "solaris", "macos", "ibmi", "zos"]
+          },
+          "description": "Nur für diese Betriebssysteme dokumentiert"
+        },
+        "fields": {
+          "$ref": "#/definitions/fieldList"
+        },
+        "alternatives": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/alternative"
+          },
+          "minItems": 2,
+          "description": "Alternativen bei oneOf (stringList oder object)"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "enum"
+              }
+            }
+          },
+          "then": {
+            "required": ["options"]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "enum": ["object", "objectList", "namedObjects"]
+              }
+            }
+          },
+          "then": {
+            "required": ["fields"]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "oneOf"
+              }
+            }
+          },
+          "then": {
+            "required": ["alternatives"]
+          }
+        }
+      ]
+    },
+    "alternative": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "label"],
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "Schlüssel in der configuration.yaml"
+        },
+        "type": {
+          "enum": ["stringList", "object"]
+        },
+        "description": {
+          "type": "string",
+          "description": "Kurzbeschreibung (deutsch), erscheint im Formular und optional als Kommentar"
+        },
+        "default": {
+          "description": "Dokumentierter Standardwert (nur Anzeige, wird nicht geschrieben)"
+        },
+        "unit": {
+          "type": "string",
+          "description": "Einheit, z. B. s, ms, MB"
+        },
+        "placeholder": {
+          "type": "string"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Erlaubte Werte (Pflicht bei enum)"
+        },
+        "suggestions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Vorschläge für string-Felder"
+        },
+        "example": {
+          "description": "Beispielwert (stringList: Liste, yaml: Text)"
+        },
+        "unquoted": {
+          "type": "boolean",
+          "description": "enum-Wert ohne Anführungszeichen schreiben (z. B. für false)"
+        },
+        "keyLabel": {
+          "type": "string",
+          "description": "Beschriftung des Namensfelds bei namedObjects"
+        },
+        "keyPlaceholder": {
+          "type": "string"
+        },
+        "valueType": {
+          "enum": [
+            "string",
+            "secret",
+            "integer",
+            "boolean",
+            "enum",
+            "stringList",
+            "keyValue",
+            "object",
+            "objectList",
+            "namedObjects",
+            "yaml",
+            "oneOf"
+          ],
+          "description": "Werttyp bei keyValue (z. B. boolean)"
+        },
+        "label": {
+          "type": "string",
+          "description": "Beschriftung einer oneOf-Alternative"
+        },
+        "os": {
+          "type": "array",
+          "items": {
+            "enum": ["linux", "aix", "windows", "solaris", "macos", "ibmi", "zos"]
+          },
+          "description": "Nur für diese Betriebssysteme dokumentiert"
+        },
+        "fields": {
+          "$ref": "#/definitions/fieldList"
+        },
+        "alternatives": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/field"
+          },
+          "minItems": 2,
+          "description": "Alternativen bei oneOf (stringList oder object)"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "enum": ["object", "objectList", "namedObjects"]
+              }
+            }
+          },
+          "then": {
+            "required": ["fields"]
+          }
+        }
+      ]
+    }
+  }
+}

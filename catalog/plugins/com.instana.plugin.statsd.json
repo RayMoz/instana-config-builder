@@ -1,0 +1,41 @@
+{
+  "key": "com.instana.plugin.statsd",
+  "name": "StatsD",
+  "category": "Metrik-Schnittstellen",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/statsd/index.html",
+  "source": "agent-template",
+  "fields": [
+    {
+      "key": "enabled",
+      "type": "boolean",
+      "description": "StatsD-Daemon im Agent aktivieren",
+      "default": false
+    },
+    {
+      "key": "ports",
+      "type": "object",
+      "description": "Ports",
+      "fields": [
+        {
+          "key": "udp",
+          "type": "integer",
+          "description": "UDP-Port für Metriken",
+          "default": 8125
+        },
+        {
+          "key": "mgmt",
+          "type": "integer",
+          "description": "Management-Port",
+          "default": 8126
+        }
+      ]
+    },
+    {
+      "key": "flush-interval",
+      "type": "integer",
+      "description": "Flush-Intervall",
+      "default": 10,
+      "unit": "s"
+    }
+  ]
+}

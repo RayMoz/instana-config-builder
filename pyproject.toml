@@ -1,0 +1,20 @@
+[project]
+name = "instana-config-builder"
+description = "Lokale Web-UI zum Erstellen und Bearbeiten von Instana-Agent configuration.yaml"
+requires-python = ">=3.7"
+dynamic = ["version"]
+readme = "README.md"
+
+[project.optional-dependencies]
+yaml = ["PyYAML>=5.1"]
+
+[tool.black]
+line-length = 110
+
+[tool.ruff]
+line-length = 110
+target-version = "py37"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "B"]
+ignore = ["B904"]

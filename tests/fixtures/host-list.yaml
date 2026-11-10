@@ -1,0 +1,7 @@
+com.instana.plugin.host:
+  tags: ['prod']
+  filesystems:
+    - '/dev/sda1'
+    - 'tmpfs:/sys/fs/cgroup'
+  nfs_all: true
+  collectPagingActivity: true

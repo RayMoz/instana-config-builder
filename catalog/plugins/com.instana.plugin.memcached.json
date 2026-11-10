@@ -1,0 +1,19 @@
+{
+  "key": "com.instana.plugin.memcached",
+  "name": "Memcached",
+  "category": "Datenbanken",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/memcached/index.html",
+  "source": "agent-template",
+  "fields": [
+    {
+      "key": "user",
+      "type": "string",
+      "description": "Benutzer (SASL)"
+    },
+    {
+      "key": "password",
+      "type": "secret",
+      "description": "Passwort"
+    }
+  ]
+}

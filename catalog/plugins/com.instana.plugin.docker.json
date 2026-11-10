@@ -1,0 +1,81 @@
+{
+  "key": "com.instana.plugin.docker",
+  "name": "Docker",
+  "category": "Container & Orchestrierung",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/docker/index.html",
+  "source": "ibm-docs",
+  "fields": [
+    {
+      "key": "stats",
+      "type": "boolean",
+      "description": "Docker-Stats erfassen"
+    },
+    {
+      "key": "interval",
+      "type": "integer",
+      "description": "Erfassungsintervall der Metriken",
+      "default": 10,
+      "unit": "s"
+    },
+    {
+      "key": "unixSocket",
+      "type": "string",
+      "description": "Pfad zum Docker-Socket",
+      "default": "/var/run/docker.sock"
+    },
+    {
+      "key": "socketTimeout",
+      "type": "integer",
+      "description": "Socket-Timeout",
+      "default": 600,
+      "unit": "s"
+    },
+    {
+      "key": "logs",
+      "type": "object",
+      "description": "Log-Erfassung",
+      "fields": [
+        {
+          "key": "enabled",
+          "type": "boolean",
+          "description": "Container-Logs erfassen",
+          "default": false
+        }
+      ]
+    },
+    {
+      "key": "maxBufferSize",
+      "type": "integer",
+      "description": "Maximaler Log-Puffer",
+      "default": 16777216,
+      "unit": "Byte"
+    },
+    {
+      "key": "minBatchSize",
+      "type": "integer",
+      "description": "Minimale Batch-Größe vor dem Senden",
+      "default": 1024,
+      "unit": "Zeichen"
+    },
+    {
+      "key": "minBatchWithholdCount",
+      "type": "integer",
+      "description": "Wie oft ein kleiner Batch zurückgehalten wird",
+      "default": 2
+    },
+    {
+      "key": "sendInterval",
+      "type": "integer",
+      "description": "Wartezeit zwischen Sendeversuchen",
+      "default": 1,
+      "unit": "s"
+    },
+    {
+      "key": "maxLineLength",
+      "type": "integer",
+      "description": "Maximale Länge einer Logzeile",
+      "default": 16384,
+      "unit": "Zeichen"
+    }
+  ]
+}

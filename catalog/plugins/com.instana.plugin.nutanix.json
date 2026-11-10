@@ -1,0 +1,37 @@
+{
+  "key": "com.instana.plugin.nutanix",
+  "name": "Nutanix",
+  "category": "Virtualisierung",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/nutanix/index.html",
+  "source": "ibm-docs",
+  "fields": [
+    {
+      "key": "enabled",
+      "type": "boolean",
+      "description": "Sensor aktivieren"
+    },
+    {
+      "key": "url",
+      "type": "string",
+      "description": "Prism-Central-URL mit Port",
+      "placeholder": "https://prism-central:9440"
+    },
+    {
+      "key": "username",
+      "type": "string",
+      "description": "Benutzer mit API-Zugriff"
+    },
+    {
+      "key": "password",
+      "type": "secret",
+      "description": "Passwort"
+    },
+    {
+      "key": "poll_rate",
+      "type": "integer",
+      "description": "Abfrageintervall",
+      "default": 20,
+      "unit": "s"
+    }
+  ]
+}

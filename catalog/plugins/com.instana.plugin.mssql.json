@@ -1,0 +1,135 @@
+{
+  "key": "com.instana.plugin.mssql",
+  "name": "Microsoft SQL Server",
+  "category": "Datenbanken",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/microsoft-sql-server/index.html",
+  "source": "ibm-docs",
+  "fields": [
+    {
+      "key": "port",
+      "type": "integer",
+      "description": "Abweichender TCP-Port der Instanz",
+      "default": 1433
+    },
+    {
+      "key": "local",
+      "type": "objectList",
+      "description": "Lokale Instanzen",
+      "fields": [
+        {
+          "key": "instance",
+          "type": "string",
+          "description": "Instanzname"
+        },
+        {
+          "key": "user",
+          "type": "string",
+          "description": "SQL-Server-Benutzer"
+        },
+        {
+          "key": "password",
+          "type": "secret",
+          "description": "Passwort"
+        },
+        {
+          "key": "port",
+          "type": "string",
+          "description": "TCP-Port für die Anmeldung"
+        },
+        {
+          "key": "poll_rate",
+          "type": "integer",
+          "description": "Abfrageintervall",
+          "default": 1,
+          "unit": "s"
+        },
+        {
+          "key": "top_queries_poll_rate",
+          "type": "integer",
+          "description": "Intervall für Top-Queries",
+          "default": 60,
+          "unit": "s"
+        },
+        {
+          "key": "sslTrustStoreLocation",
+          "type": "string",
+          "description": "Pfad zum Truststore"
+        },
+        {
+          "key": "sslTrustStorePassword",
+          "type": "secret",
+          "description": "Passwort des Truststores"
+        },
+        {
+          "key": "certificateHostname",
+          "type": "string",
+          "description": "Hostname aus SAN/CN des Zertifikats"
+        }
+      ]
+    },
+    {
+      "key": "remote",
+      "type": "objectList",
+      "description": "Remote-Instanzen",
+      "fields": [
+        {
+          "key": "host",
+          "type": "string",
+          "description": "Hostname des Servers"
+        },
+        {
+          "key": "instance",
+          "type": "string",
+          "description": "Instanzname"
+        },
+        {
+          "key": "user",
+          "type": "string",
+          "description": "SQL-Server-Benutzer"
+        },
+        {
+          "key": "password",
+          "type": "secret",
+          "description": "Passwort"
+        },
+        {
+          "key": "port",
+          "type": "string",
+          "description": "TCP-Port"
+        },
+        {
+          "key": "availabilityZone",
+          "type": "string",
+          "description": "Zone für die Remote-Instanz"
+        },
+        {
+          "key": "poll_rate",
+          "type": "integer",
+          "description": "Abfrageintervall",
+          "unit": "s"
+        },
+        {
+          "key": "top_queries_poll_rate",
+          "type": "integer",
+          "description": "Intervall für Top-Queries",
+          "unit": "s"
+        },
+        {
+          "key": "sslTrustStoreLocation",
+          "type": "string",
+          "description": "Pfad zum Truststore"
+        },
+        {
+          "key": "sslTrustStorePassword",
+          "type": "secret",
+          "description": "Passwort des Truststores"
+        },
+        {
+          "key": "certificateHostname",
+          "type": "string",
+          "description": "Hostname aus SAN/CN des Zertifikats"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "key": "com.instana.plugin.vsphere",
+  "name": "VMware vSphere",
+  "category": "Virtualisierung",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/vsphere/index.html",
+  "source": "ibm-docs",
+  "fields": [
+    {
+      "key": "enabled",
+      "type": "boolean",
+      "description": "vSphere-Monitoring aktivieren"
+    },
+    {
+      "key": "host",
+      "type": "string",
+      "description": "vCenter-SDK-URL",
+      "placeholder": "https://vcenter.example.com/sdk"
+    },
+    {
+      "key": "username",
+      "type": "string",
+      "description": "vCenter-Benutzer (Read-only genügt)"
+    },
+    {
+      "key": "password",
+      "type": "secret",
+      "description": "Passwort"
+    },
+    {
+      "key": "monitor_vms",
+      "type": "boolean",
+      "description": "false: VM-Monitoring komplett aus"
+    },
+    {
+      "key": "disabled_hosts",
+      "type": "string",
+      "description": "Ausgeschlossene Hosts (kommagetrennt)",
+      "placeholder": "esx01,esx02"
+    },
+    {
+      "key": "folder_path",
+      "type": "string",
+      "description": "Nur VMs in diesem Ordner des Datacenters"
+    },
+    {
+      "key": "poll_rate",
+      "type": "integer",
+      "description": "Abfrageintervall",
+      "default": 20,
+      "unit": "s"
+    }
+  ]
+}

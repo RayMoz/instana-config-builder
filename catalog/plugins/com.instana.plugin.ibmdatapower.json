@@ -1,0 +1,50 @@
+{
+  "key": "com.instana.plugin.ibmdatapower",
+  "name": "IBM DataPower",
+  "category": "Webserver & Proxys",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/datapower/index.html",
+  "source": "ibm-docs",
+  "fields": [
+    {
+      "key": "enabled",
+      "type": "boolean",
+      "description": "Sensor aktivieren"
+    },
+    {
+      "key": "poll_rate",
+      "type": "integer",
+      "description": "Abfrageintervall",
+      "default": 60,
+      "unit": "s"
+    },
+    {
+      "key": "instances",
+      "type": "namedObjects",
+      "description": "DataPower-Instanzen (REST-Management-Schnittstelle)",
+      "keyLabel": "Host/IP der Appliance oder 'local'",
+      "fields": [
+        {
+          "key": "port",
+          "type": "string",
+          "description": "Port der REST-Management-Schnittstelle",
+          "placeholder": "5554"
+        },
+        {
+          "key": "username",
+          "type": "string",
+          "description": "Benutzer"
+        },
+        {
+          "key": "password",
+          "type": "secret",
+          "description": "Passwort"
+        },
+        {
+          "key": "cluster",
+          "type": "string",
+          "description": "Mehrere Instanzen zu einem Cluster gruppieren (optional, nur remote)"
+        }
+      ]
+    }
+  ]
+}

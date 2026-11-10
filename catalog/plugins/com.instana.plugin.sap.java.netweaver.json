@@ -1,0 +1,125 @@
+{
+  "key": "com.instana.plugin.sap.java.netweaver",
+  "name": "SAP Java NetWeaver",
+  "category": "SAP",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/sap_monitoring/java_netweaver_sensor.html",
+  "source": "ibm-docs",
+  "fields": [
+    {
+      "key": "enabled",
+      "type": "boolean",
+      "description": "Sensor ein/aus"
+    },
+    {
+      "key": "local",
+      "type": "objectList",
+      "description": "Lokale Instanzen",
+      "fields": [
+        {
+          "key": "host",
+          "type": "string",
+          "description": "Host (optional)",
+          "default": "localhost"
+        },
+        {
+          "key": "jmxport",
+          "type": "string",
+          "description": "JMX-Port"
+        },
+        {
+          "key": "user",
+          "type": "string",
+          "description": "Benutzer"
+        },
+        {
+          "key": "password",
+          "type": "secret",
+          "description": "Passwort"
+        },
+        {
+          "key": "sysnr",
+          "type": "string",
+          "description": "Instanznummer",
+          "placeholder": "01"
+        },
+        {
+          "key": "poll_rate",
+          "type": "integer",
+          "description": "Abfrageintervall",
+          "default": 60,
+          "unit": "s"
+        }
+      ]
+    },
+    {
+      "key": "remote",
+      "type": "objectList",
+      "description": "Remote-Instanzen",
+      "fields": [
+        {
+          "key": "host",
+          "type": "string",
+          "description": "Host/IP"
+        },
+        {
+          "key": "jmxport",
+          "type": "string",
+          "description": "JMX-Port"
+        },
+        {
+          "key": "user",
+          "type": "string",
+          "description": "Benutzer"
+        },
+        {
+          "key": "password",
+          "type": "secret",
+          "description": "Passwort"
+        },
+        {
+          "key": "sysnr",
+          "type": "string",
+          "description": "Instanznummer",
+          "placeholder": "72"
+        },
+        {
+          "key": "poll_rate",
+          "type": "integer",
+          "description": "Abfrageintervall",
+          "default": 60,
+          "unit": "s"
+        }
+      ]
+    },
+    {
+      "key": "custom",
+      "type": "object",
+      "description": "Eigene Metriken",
+      "fields": [
+        {
+          "key": "jmxBeans",
+          "type": "objectList",
+          "description": "JMX-Beans",
+          "fields": [
+            {
+              "key": "name",
+              "type": "string",
+              "description": "Metrikname"
+            },
+            {
+              "key": "object",
+              "type": "string",
+              "description": "ObjectName-Muster"
+            },
+            {
+              "key": "attribute",
+              "type": "string",
+              "description": "Attribut",
+              "placeholder": "Value"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

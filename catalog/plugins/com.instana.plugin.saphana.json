@@ -1,0 +1,46 @@
+{
+  "key": "com.instana.plugin.saphana",
+  "name": "SAP HANA",
+  "category": "Datenbanken",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/sap-hana/index.html",
+  "source": "agent-template",
+  "fields": [
+    {
+      "key": "singleContainer",
+      "type": "object",
+      "description": "Single-Container-System",
+      "fields": [
+        {
+          "key": "user",
+          "type": "string",
+          "description": "Benutzer",
+          "default": "SYSTEM"
+        },
+        {
+          "key": "password",
+          "type": "secret",
+          "description": "Passwort"
+        }
+      ]
+    },
+    {
+      "key": "multiContainer",
+      "type": "namedObjects",
+      "description": "Multi-Container: je Tenant-Datenbank Benutzer und Passwort",
+      "keyLabel": "Datenbankname (z. B. HXE)",
+      "fields": [
+        {
+          "key": "user",
+          "type": "string",
+          "description": "Benutzer",
+          "default": "SYSTEM"
+        },
+        {
+          "key": "password",
+          "type": "secret",
+          "description": "Passwort"
+        }
+      ]
+    }
+  ]
+}

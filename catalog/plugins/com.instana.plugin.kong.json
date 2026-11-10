@@ -1,0 +1,90 @@
+{
+  "key": "com.instana.plugin.kong",
+  "name": "Kong API Gateway",
+  "category": "Webserver & Proxys",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/kong/index.html",
+  "source": "ibm-docs",
+  "fields": [
+    {
+      "key": "enabled",
+      "type": "boolean",
+      "description": "Sensor aktivieren",
+      "default": false
+    },
+    {
+      "key": "dataset_size",
+      "type": "integer",
+      "description": "Max. Zeilen für Service-/Route-Metriken",
+      "default": 10
+    },
+    {
+      "key": "disabled_metrics",
+      "type": "string",
+      "description": "Abgeschaltete Metriken (kommagetrennt)",
+      "placeholder": "KONG_LATENCY,UPSTREAM_LATENCY"
+    },
+    {
+      "key": "status_code_group",
+      "type": "string",
+      "description": "Überwachte Statusklassen",
+      "default": "2xx,3xx,4xx,5xx"
+    },
+    {
+      "key": "remote",
+      "type": "objectList",
+      "description": "Kong-Instanzen",
+      "fields": [
+        {
+          "key": "host",
+          "type": "string",
+          "description": "Host/IP"
+        },
+        {
+          "key": "port",
+          "type": "string",
+          "description": "Admin-API-Port",
+          "default": "8444"
+        },
+        {
+          "key": "protocol",
+          "type": "enum",
+          "description": "Protokoll der Admin-API",
+          "default": "https",
+          "options": ["https", "http"]
+        },
+        {
+          "key": "availabilityZone",
+          "type": "string",
+          "description": "Zone"
+        },
+        {
+          "key": "poll_rate",
+          "type": "integer",
+          "description": "Abfrageintervall (min. 30)",
+          "default": 30,
+          "unit": "s"
+        },
+        {
+          "key": "username",
+          "type": "string",
+          "description": "Basic-Auth-Benutzer (optional)"
+        },
+        {
+          "key": "password",
+          "type": "secret",
+          "description": "Basic-Auth-Passwort (optional)"
+        },
+        {
+          "key": "admin_api_route_path",
+          "type": "string",
+          "description": "Route der Admin-API bei Basic Auth"
+        },
+        {
+          "key": "admin_token",
+          "type": "secret",
+          "description": "Kong-Admin-Token (optional)"
+        }
+      ]
+    }
+  ]
+}

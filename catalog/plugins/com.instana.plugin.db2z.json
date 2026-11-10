@@ -1,0 +1,8 @@
+{
+  "key": "com.instana.plugin.db2z",
+  "name": "Db2 for z/OS",
+  "category": "Datenbanken",
+  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/index.html",
+  "source": "free",
+  "fields": []
+}
