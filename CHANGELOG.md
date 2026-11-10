@@ -15,6 +15,15 @@ Format nach [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionen 
   entsprechend gekennzeichnet.
 - Oberfläche: Kennzeichen am Feld und Umschalter „Optionen für: Alle | Linux | AIX“ auf der Karte.
 
+### Behoben
+
+- Doku-Links: IBM hat die Pfade `docs/en/SSE1JP5/…` und `docs/SSE1JP5/…` abgeschaltet (404).
+  Alle Links zeigen jetzt auf `https://www.ibm.com/docs/SSE1JP5_current/…`; alle Zielseiten geprüft.
+- Doku-Links: 62 Plugins, die bisher nur auf die allgemeine Übersicht „Configuring and monitoring
+  supported technologies“ verwiesen, verlinken jetzt die passende Sensor-Seite (z. B. Tomcat, AWS S3,
+  Google Cloud Run, PHP-FPM, Java-Profiling). Für `db2z` und `ibmapmproxy` gibt es derzeit keine
+  eigene IBM-Seite; dort bleibt der Link auf die Übersicht.
+
 ## [2.0.0] – 2026-11-10
 
 ### Geändert

@@ -2,7 +2,7 @@
   "key": "com.instana.plugin.sap.java.netweaver",
   "name": "SAP Java NetWeaver",
   "category": "SAP",
-  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/sap_monitoring/java_netweaver_sensor.html",
+  "docs": "https://www.ibm.com/docs/SSE1JP5_current/src/pages/ecosystem/sap_monitoring/java_netweaver_sensor.html",
   "source": "ibm-docs",
   "fields": [
     {

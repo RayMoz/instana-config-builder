@@ -2,7 +2,7 @@
   "key": "com.instana.plugin.kafka",
   "name": "Kafka",
   "category": "Messaging",
-  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/kafka/index.html",
+  "docs": "https://www.ibm.com/docs/SSE1JP5_current/src/pages/ecosystem/kafka/index.html",
   "source": "ibm-docs",
   "fields": [
     {

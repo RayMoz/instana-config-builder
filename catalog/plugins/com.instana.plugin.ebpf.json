@@ -2,7 +2,7 @@
   "key": "com.instana.plugin.ebpf",
   "name": "eBPF",
   "category": "Agent",
-  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/index.html",
+  "docs": "https://www.ibm.com/docs/SSE1JP5_current/src/pages/ecosystem/os-process/index.html",
   "source": "free",
   "fields": []
 }

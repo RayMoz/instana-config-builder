@@ -2,7 +2,7 @@
   "key": "com.instana.plugin.db2",
   "name": "IBM Db2",
   "category": "Datenbanken",
-  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/db2/index.html",
+  "docs": "https://www.ibm.com/docs/SSE1JP5_current/src/pages/ecosystem/db2/index.html",
   "source": "ibm-docs",
   "fields": [
     {

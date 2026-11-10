@@ -2,7 +2,7 @@
   "key": "com.instana.plugin.generic.hardware",
   "name": "Hardware & Zone",
   "category": "Agent",
-  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/setup_and_manage/host_agent/configuration/index.html",
+  "docs": "https://www.ibm.com/docs/SSE1JP5_current/src/pages/setup_and_manage/host_agent/configuration/index.html",
   "source": "agent-template",
   "fields": [
     {

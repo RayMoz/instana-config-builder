@@ -2,7 +2,7 @@
   "key": "com.instana.plugin.eum",
   "name": "EUM – Website-Autoinstrumentierung",
   "category": "Webserver & Proxys",
-  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/website_monitoring/auto_instrument.html",
+  "docs": "https://www.ibm.com/docs/SSE1JP5_current/src/pages/website_monitoring/auto_instrument.html",
   "source": "ibm-docs",
   "note": "Injiziert den EUM-JavaScript-Agent automatisch in HTML-Antworten. Unterstützt: Apache HTTPd (HTTPd-Sensor ≥ 1.2.12, HTTPd-Tracing muss aktiv sein) und Tomcat (Jakarta, Java-Tracer ≥ 2.0.9; dort nur Standard-Content-Types und url/path-Selektoren).",
   "fields": [

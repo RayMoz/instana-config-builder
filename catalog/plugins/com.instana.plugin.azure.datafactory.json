@@ -2,7 +2,7 @@
   "key": "com.instana.plugin.azure.datafactory",
   "name": "Azure Data Factory",
   "category": "Cloud",
-  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/azure-datafactory/index.html",
+  "docs": "https://www.ibm.com/docs/SSE1JP5_current/src/pages/ecosystem/azure-datafactory/index.html",
   "source": "free",
   "fields": []
 }

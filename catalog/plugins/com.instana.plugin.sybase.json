@@ -2,7 +2,7 @@
   "key": "com.instana.plugin.sybase",
   "name": "SAP SQL Anywhere",
   "category": "Datenbanken",
-  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/index.html",
+  "docs": "https://www.ibm.com/docs/SSE1JP5_current/src/pages/ecosystem/sybase-sql-anywhere/index.html",
   "source": "free",
   "fields": []
 }

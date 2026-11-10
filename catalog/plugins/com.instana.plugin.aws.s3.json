@@ -2,7 +2,7 @@
   "key": "com.instana.plugin.aws.s3",
   "name": "AWS S3",
   "category": "Cloud",
-  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/index.html",
+  "docs": "https://www.ibm.com/docs/SSE1JP5_current/src/pages/ecosystem/aws-s3/index.html",
   "source": "free",
   "fields": []
 }

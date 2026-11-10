@@ -2,7 +2,7 @@
   "key": "com.instana.plugin.netcore",
   "name": ".NET / .NET Core – deklaratives SDK",
   "category": "Laufzeiten & Tracing",
-  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/tracing/dotnet-core-configuration-sdk.html",
+  "docs": "https://www.ibm.com/docs/SSE1JP5_current/src/pages/tracing/dotnet-core-configuration-sdk.html",
   "source": "ibm-docs",
   "note": "Die IBM-Doku nennt für .NET Core den Schlüssel com.instana.plugin.netcore, ihr Beispiel verwendet aber com.instana.plugin.clr. Im Zweifel beide Varianten testen oder die Ziele unter .NET Framework (CLR) eintragen.",
   "fields": [
