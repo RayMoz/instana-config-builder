@@ -322,6 +322,62 @@ main {
 .card > .hd .sp {
   flex: 1;
 }
+.card.collapsed > .hd {
+  border-bottom: 0;
+}
+.card > .hd {
+  cursor: pointer;
+  user-select: none;
+}
+.card > .hd:hover {
+  background: var(--sunk);
+  border-radius: 8px 8px 0 0;
+}
+.card.collapsed > .hd:hover {
+  border-radius: 8px;
+}
+.card > .hd:hover h2 {
+  color: var(--accent);
+}
+.card > .hd .chevbtn {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1;
+}
+.card > .hd .chevbtn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.card > .hd .chev {
+  display: inline-flex;
+  transition: transform 0.15s;
+}
+.card.collapsed > .hd .chev {
+  transform: rotate(-90deg);
+}
+.edbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.edbar .lbl {
+  color: var(--muted);
+  font-size: 12.5px;
+}
+.edbar .sp {
+  flex: 1;
+}
 .card > .bd {
   padding: 12px 14px;
   display: grid;

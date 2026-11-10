@@ -56,6 +56,7 @@ class ImporterTest(unittest.TestCase):
         self.assertEqual(fields["useMpstat"]["os"], ["aix"])
         self.assertEqual(fields["nfs_all"]["os"], ["linux"])
         self.assertEqual(fields["wsfcEnabled"]["os"], ["windows"])
+        self.assertEqual(fields["collectSystemId"]["os"], ["aix", "macos", "solaris", "ibmi"])
         self.assertNotIn("os", fields["filesystems"])
         self.assertNotIn("os", fields["poll_rate"])
 

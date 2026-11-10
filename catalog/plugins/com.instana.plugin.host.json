@@ -2,9 +2,9 @@
   "key": "com.instana.plugin.host",
   "name": "Host",
   "category": "Agent",
-  "docs": "https://www.ibm.com/docs/SSE1JP5_current/src/pages/ecosystem/host/linux_host.html",
+  "docs": "https://www.ibm.com/docs/SSE1JP5_current/src/pages/ecosystem/host/index.html",
   "source": "ibm-docs",
-  "note": "Optionen laut IBM-Doku „Monitoring a Linux host“, „Monitoring an AIX host“ (https://www.ibm.com/docs/SSE1JP5_current/src/pages/ecosystem/host/AIX_host.html) und „Monitoring a Windows host“ (https://www.ibm.com/docs/SSE1JP5_current/src/pages/ecosystem/host/windows_host.html); tags laut Beispielkonfiguration des Agents, configDisk aus der Praxis. Standardmäßig überwacht Instana nur lokale Dateisysteme.",
+  "note": "Optionen laut IBM-Doku je Betriebssystem: Linux (https://www.ibm.com/docs/SSE1JP5_current/src/pages/ecosystem/host/linux_host.html), AIX (…/host/AIX_host.html), Windows (…/host/windows_host.html), macOS (…/host/mac_host.html), Solaris (…/host/solaris_host.html), IBM i (…/host/ibm_i_host.html); tags laut Beispielkonfiguration des Agents, configDisk aus der Praxis. Standardmäßig überwacht Instana nur lokale Dateisysteme.",
   "fields": [
     {
       "key": "tags",
@@ -22,7 +22,7 @@
     {
       "key": "filesystems",
       "type": "oneOf",
-      "description": "Überwachte Dateisysteme nach Gerätenamen; unter Linux auch tmpfs:/mount/point oder server:/export, unter Windows Laufwerksbuchstaben (C, D – siehe Get-PSDrive -PSProvider FileSystem)",
+      "description": "Überwachte Dateisysteme nach Gerätenamen; unter Linux auch tmpfs:/mount/point oder server:/export, unter Windows Laufwerksbuchstaben (C, D – siehe Get-PSDrive -PSProvider FileSystem), unter Solaris Gerätenamen aus mnttab bzw. df (rpool/export/home)",
       "alternatives": [
         {
           "type": "stringList",
@@ -107,8 +107,8 @@
     {
       "key": "collectSystemId",
       "type": "boolean",
-      "description": "System-ID für den Abgleich mit Asset-Management-Systemen erfassen",
-      "os": ["aix"]
+      "description": "System-ID für den Abgleich mit Asset-Management-Systemen erfassen (unter Solaris und IBM i erforderlich)",
+      "os": ["aix", "macos", "solaris", "ibmi"]
     },
     {
       "key": "useMpstat",

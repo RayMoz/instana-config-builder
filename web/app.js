@@ -4,7 +4,7 @@ let CAT = [],
   BYKEY = {},
   INFO = {};
 const $ = (id) => document.getElementById(id);
-const S = { order: [], plugins: {}, comments: false, file: "", uploadName: "" };
+const S = { order: [], plugins: {}, comments: false, file: "", uploadName: "", collapsed: {} };
 const store = {
   get() {
     try {
@@ -349,6 +349,7 @@ function addPlugin(key, values, extra) {
     S.plugins[key] = { key, values: values || {}, extra: extra || "" };
     S.order.push(key);
   }
+  delete S.collapsed[key];
   renderCatalog();
   renderEditor();
   refresh();
@@ -357,6 +358,7 @@ function addPlugin(key, values, extra) {
 }
 function removePlugin(key) {
   delete S.plugins[key];
+  delete S.collapsed[key];
   S.order = S.order.filter((k) => k !== key);
   renderCatalog();
   renderEditor();
@@ -383,22 +385,85 @@ function renderEditor() {
     );
     return;
   }
+  const setAll = (v) => {
+    S.collapsed = {};
+    if (v) S.order.forEach((k) => (S.collapsed[k] = true));
+    renderEditor();
+    persist();
+  };
+  ed.append(
+    el(
+      "div",
+      { class: "edbar" },
+      el("span", { class: "lbl" }, S.order.length + " Abschnitt(e)"),
+      el("span", { class: "sp" }),
+      el("button", { type: "button", class: "btn small", onclick: () => setAll(true) }, "Alle einklappen"),
+      el("button", { type: "button", class: "btn small", onclick: () => setAll(false) }, "Alle ausklappen"),
+    ),
+  );
   S.order.forEach((key, idx) => ed.append(renderCard(key, idx)));
+}
+/* Pfeil-Symbol für die Umschaltfläche (zeigt nach unten = ausgeklappt) */
+function chevron() {
+  const s = el("span", { class: "chev", "aria-hidden": "true" });
+  s.innerHTML =
+    '<svg viewBox="0 0 16 16" width="14" height="14"><path d="M3.5 6 8 10.5 12.5 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  return s;
+}
+/* Anzahl gesetzter Werte – wird im eingeklappten Zustand angezeigt */
+function countSet(p, c) {
+  let n = c.fields.filter((f) => hasValue(p.values[f.k])).length;
+  if ((p.extra || "").trim()) n++;
+  return n;
 }
 function renderCard(key, idx) {
   const p = S.plugins[key];
   const c = BYKEY[key] || { key, name: key, fields: [], src: "custom" };
-  const card = el("article", { class: "card", id: "card-" + cssId(key) });
+  const collapsed = !!S.collapsed[key];
+  const card = el("article", {
+    class: "card" + (collapsed ? " collapsed" : ""),
+    id: "card-" + cssId(key),
+  });
   const rerender = () => {
     card.replaceWith(renderCard(key, S.order.indexOf(key)));
     refresh();
   };
+  const bdId = "bd-" + cssId(key);
+  const toggle = () => {
+    if (S.collapsed[key]) delete S.collapsed[key];
+    else S.collapsed[key] = true;
+    card.replaceWith(renderCard(key, S.order.indexOf(key)));
+    persist();
+  };
+  const n = collapsed ? countSet(p, c) : 0;
   card.append(
     el(
       "div",
-      { class: "hd" },
+      {
+        class: "hd",
+        title: collapsed ? "Klicken zum Ausklappen" : "Klicken zum Einklappen",
+        // Klick auf eine freie Stelle der Kopfzeile klappt um; Schaltflächen und Links behalten ihre Funktion
+        onclick: (e) => {
+          if (!e.target.closest("button, a, input, select, textarea")) toggle();
+        },
+      },
+      el(
+        "button",
+        {
+          type: "button",
+          class: "chevbtn",
+          "aria-expanded": String(!collapsed),
+          "aria-controls": bdId,
+          "aria-label": (collapsed ? "Ausklappen: " : "Einklappen: ") + c.name,
+          onclick: toggle,
+        },
+        chevron(),
+      ),
       el("h2", { text: c.name }),
       el("code", { text: key }),
+      collapsed
+        ? el("span", { class: "tag" + (n ? " doc" : "") }, n ? n + " gesetzt" : "leer")
+        : null,
       el("span", { class: "sp" }),
       c.doc ? el("a", { href: c.doc, target: "_blank", rel: "noopener" }, "Doku") : null,
       el(
@@ -419,7 +484,11 @@ function renderCard(key, idx) {
       el("button", { class: "btn small danger", onclick: () => removePlugin(key) }, "Entfernen"),
     ),
   );
-  const bd = el("div", { class: "bd" });
+  if (collapsed) {
+    card.append(el("div", { class: "bd", id: bdId, hidden: true }));
+    return card;
+  }
+  const bd = el("div", { class: "bd", id: bdId });
   if (c.note) bd.append(el("div", { class: "note" }, c.note));
   if (c.src === "agent-template")
     bd.append(
@@ -1280,6 +1349,7 @@ $("dlg").addEventListener("close", () => {
 function loadState(plugins) {
   S.order = [];
   S.plugins = {};
+  S.collapsed = {};
   for (const p of plugins) {
     if (p.custom && !BYKEY[p.key])
       BYKEY[p.key] = { key: p.key, name: p.key, fields: [], src: "custom", cat: "Eigene", custom: true };
@@ -1344,6 +1414,7 @@ $("optComments").onchange = (e) => {
     S.plugins = saved.plugins;
     S.uploadName = saved.uploadName || "";
     S.osView = saved.osView || {};
+    S.collapsed = saved.collapsed || {};
   }
   setFile((saved && saved.file) || "");
   renderCatalog();
