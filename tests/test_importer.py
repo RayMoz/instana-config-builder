@@ -41,11 +41,23 @@ class ImporterTest(unittest.TestCase):
         self.assertEqual(v["collectIOActivity"], "false")
         self.assertEqual(v["filesystems"]["exclude"], ["/dev/hd10opt"])
 
+    def test_host_windows_example(self):
+        r = section(import_yaml(fixture("host-windows.yaml"), BY_KEY), "com.instana.plugin.host")
+        self.assertEqual(r["extra"], "", "alle Windows-Optionen sollten im Katalog stehen")
+        v = r["values"]
+        self.assertEqual(v["poll_rate"], "5")
+        self.assertEqual(v["smb"], ["\\\\server\\smbshare", "Y:"])
+        self.assertEqual(v["winServiceRegex"], "(Sensor|Device)")
+        self.assertEqual(v["wsfcEnabled"], "true")
+        self.assertEqual(v["filesystems"]["include"], ["C", "D"])
+
     def test_host_os_tags(self):
         fields = {f["k"]: f for f in BY_KEY["com.instana.plugin.host"]["fields"]}
         self.assertEqual(fields["useMpstat"]["os"], ["aix"])
         self.assertEqual(fields["nfs_all"]["os"], ["linux"])
+        self.assertEqual(fields["wsfcEnabled"]["os"], ["windows"])
         self.assertNotIn("os", fields["filesystems"])
+        self.assertNotIn("os", fields["poll_rate"])
 
     def test_unknown_subkeys_fall_back_to_yaml(self):
         text = "com.instana.plugin.javatrace:\n  instrumentation:\n    enabled: true\n    neuesFeature: 1\n"

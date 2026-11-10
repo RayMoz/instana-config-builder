@@ -1,0 +1,14 @@
+# Beispiel nach IBM-Doku „Monitoring a Windows host“
+com.instana.plugin.host:
+  poll_rate: 5
+  filesystems:
+    include:
+      - 'C'
+      - 'D'
+    exclude:
+      - 'E'
+  smb:
+    - "\\\\server\\smbshare"
+    - "Y:"
+  winServiceRegex: '(Sensor|Device)'
+  wsfcEnabled: true

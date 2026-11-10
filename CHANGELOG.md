@@ -14,6 +14,9 @@ Format nach [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionen 
 - Katalog: Feld-Attribut `os` für betriebssystemspezifische Optionen; Linux-Optionen des Host-Plugins
   entsprechend gekennzeichnet.
 - Oberfläche: Kennzeichen am Feld und Umschalter „Optionen für: Alle | Linux | AIX“ auf der Karte.
+- Host: Windows-Optionen laut IBM-Doku „Monitoring a Windows host“ (`smb`, `winServiceRegex`,
+  `wsfcEnabled`) sowie `poll_rate` für alle Betriebssysteme; Hinweis auf Laufwerksbuchstaben bei
+  `filesystems`.
 
 ### Behoben
 
