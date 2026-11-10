@@ -5,6 +5,16 @@ Format nach [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionen 
 
 ## [Unreleased]
 
+### Neu
+
+- Host: AIX-Optionen laut IBM-Doku „Monitoring an AIX host“ (`collectSystemId`, `useMpstat`,
+  `collectPhysicalProcessorUtil`, `collectIndividualCpuMetrics`, `collectIOActivity`,
+  `collectProcessStatistics`, `collectAllDisks`, `collectAllVolumeGroups`, `collectAllLogicalVolumes`,
+  `collectAllAixFilesystems`, `collectNfsStatistics`, `collectRpcStatistics`, `aixEventsPollRate`).
+- Katalog: Feld-Attribut `os` für betriebssystemspezifische Optionen; Linux-Optionen des Host-Plugins
+  entsprechend gekennzeichnet.
+- Oberfläche: Kennzeichen am Feld und Umschalter „Optionen für: Alle | Linux | AIX“ auf der Karte.
+
 ## [2.0.0] – 2026-11-10
 
 ### Geändert

@@ -52,7 +52,14 @@ Jede Datei unter `plugins/` beschreibt **einen** Schlüssel der obersten Ebene d
 `key`, `type`, `description` (deutsch, kurz), `default` (nur Anzeige), `unit`, `placeholder`,
 `options` (enum), `suggestions` (Vorschläge bei string), `example` (Beispielwerte zum Einsetzen),
 `unquoted`, `keyLabel`/`keyPlaceholder` (namedObjects/keyValue), `valueType` (keyValue),
-`label` (oneOf-Alternative), `fields`, `alternatives`.
+`label` (oneOf-Alternative), `os`, `fields`, `alternatives`.
+
+### Betriebssystem-spezifische Optionen
+
+Gilt eine Option nur für bestimmte Betriebssysteme, bekommt sie `"os": ["aix"]` (erlaubt: `linux`,
+`aix`, `windows`, `solaris`, `macos`, `ibmi`, `zos`). Die Oberfläche zeigt dann ein Kennzeichen am
+Feld und auf der Karte einen Umschalter „Optionen für: Alle | Linux | AIX …“. Felder ohne `os`
+gelten für alle Systeme; bereits gesetzte Werte bleiben unabhängig vom Filter sichtbar.
 
 ## Fragmente
 
