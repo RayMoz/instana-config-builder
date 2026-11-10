@@ -403,6 +403,13 @@ function renderEditor() {
   );
   S.order.forEach((key, idx) => ed.append(renderCard(key, idx)));
 }
+/* Pfeil-Symbol für die Umschaltfläche (zeigt nach unten = ausgeklappt) */
+function chevron() {
+  const s = el("span", { class: "chev", "aria-hidden": "true" });
+  s.innerHTML =
+    '<svg viewBox="0 0 16 16" width="14" height="14"><path d="M3.5 6 8 10.5 12.5 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  return s;
+}
 /* Anzahl gesetzter Werte – wird im eingeklappten Zustand angezeigt */
 function countSet(p, c) {
   let n = c.fields.filter((f) => hasValue(p.values[f.k])).length;
@@ -432,24 +439,27 @@ function renderCard(key, idx) {
   card.append(
     el(
       "div",
-      { class: "hd" },
+      {
+        class: "hd",
+        title: collapsed ? "Klicken zum Ausklappen" : "Klicken zum Einklappen",
+        // Klick auf eine freie Stelle der Kopfzeile klappt um; Schaltflächen und Links behalten ihre Funktion
+        onclick: (e) => {
+          if (!e.target.closest("button, a, input, select, textarea")) toggle();
+        },
+      },
       el(
-        "h2",
-        null,
-        el(
-          "button",
-          {
-            type: "button",
-            class: "tgl",
-            "aria-expanded": String(!collapsed),
-            "aria-controls": bdId,
-            title: collapsed ? "Ausklappen" : "Einklappen",
-            onclick: toggle,
-          },
-          el("span", { class: "chev", "aria-hidden": "true" }, "▾"),
-          c.name,
-        ),
+        "button",
+        {
+          type: "button",
+          class: "chevbtn",
+          "aria-expanded": String(!collapsed),
+          "aria-controls": bdId,
+          "aria-label": (collapsed ? "Ausklappen: " : "Einklappen: ") + c.name,
+          onclick: toggle,
+        },
+        chevron(),
       ),
+      el("h2", { text: c.name }),
       el("code", { text: key }),
       collapsed
         ? el("span", { class: "tag" + (n ? " doc" : "") }, n ? n + " gesetzt" : "leer")

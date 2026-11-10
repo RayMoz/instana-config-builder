@@ -20,7 +20,8 @@ Format nach [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionen 
 - Host: macOS, Solaris und IBM i laut den jeweiligen IBM-Doku-Seiten. Neue Schlüssel gibt es dort
   nicht; `collectSystemId` gilt jetzt auch für diese Systeme, `filesystems` nennt Solaris-Gerätenamen.
   Der Doku-Link der Karte zeigt auf die Übersicht „Monitoring host“.
-- Oberfläche: Plugin-Karten lassen sich einklappen (Klick auf den Namen). Eingeklappt bleiben nur
+- Oberfläche: Jede Plugin-Karte lässt sich einzeln ein- und ausklappen – per Pfeil-Schaltfläche oder
+  Klick auf eine freie Stelle der Kopfzeile (auch per Tastatur). Eingeklappt bleiben nur
   Kopfzeile und Schaltflächen sichtbar, dazu die Anzahl gesetzter Werte. „Alle einklappen“ und
   „Alle ausklappen“ über dem Editor; der Zustand wird im Browser gespeichert.
 

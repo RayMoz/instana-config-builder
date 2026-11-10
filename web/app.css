@@ -325,25 +325,42 @@ main {
 .card.collapsed > .hd {
   border-bottom: 0;
 }
-.card > .hd .tgl {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 6px;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: inherit;
-  font: inherit;
+.card > .hd {
   cursor: pointer;
-  text-align: left;
+  user-select: none;
 }
-.card > .hd .tgl:hover {
+.card > .hd:hover {
+  background: var(--sunk);
+  border-radius: 8px 8px 0 0;
+}
+.card.collapsed > .hd:hover {
+  border-radius: 8px;
+}
+.card > .hd:hover h2 {
+  color: var(--accent);
+}
+.card > .hd .chevbtn {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1;
+}
+.card > .hd .chevbtn:hover {
+  border-color: var(--accent);
   color: var(--accent);
 }
 .card > .hd .chev {
-  display: inline-block;
-  width: 1em;
-  color: var(--muted);
+  display: inline-flex;
   transition: transform 0.15s;
 }
 .card.collapsed > .hd .chev {
