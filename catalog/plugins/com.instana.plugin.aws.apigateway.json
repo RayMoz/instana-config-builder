@@ -2,7 +2,7 @@
   "key": "com.instana.plugin.aws.apigateway",
   "name": "AWS API Gateway",
   "category": "Cloud",
-  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/aws-apigateway/index.html",
+  "docs": "https://www.ibm.com/docs/SSE1JP5_current/src/pages/ecosystem/aws-apigateway/index.html",
   "source": "free",
   "fields": []
 }

@@ -8,7 +8,7 @@ Jede Datei unter `plugins/` beschreibt **einen** Schlüssel der obersten Ebene d
   "key": "com.instana.plugin.redis",
   "name": "Redis",
   "category": "Datenbanken",
-  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/redis/index.html",
+  "docs": "https://www.ibm.com/docs/SSE1JP5_current/src/pages/ecosystem/redis/index.html",
   "source": "ibm-docs",
   "note": "optionaler Hinweis oben auf der Karte",
   "fields": [

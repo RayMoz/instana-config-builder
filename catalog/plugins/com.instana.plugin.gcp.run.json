@@ -2,7 +2,7 @@
   "key": "com.instana.plugin.gcp.run",
   "name": "Google Cloud Run",
   "category": "Cloud",
-  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/index.html",
+  "docs": "https://www.ibm.com/docs/SSE1JP5_current/src/pages/ecosystem/google-cloud-run/index.html",
   "source": "free",
   "fields": []
 }

@@ -2,7 +2,7 @@
   "key": "com.instana.plugin.statsd",
   "name": "StatsD",
   "category": "Metrik-Schnittstellen",
-  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/statsd/index.html",
+  "docs": "https://www.ibm.com/docs/SSE1JP5_current/src/pages/ecosystem/statsd/index.html",
   "source": "agent-template",
   "fields": [
     {

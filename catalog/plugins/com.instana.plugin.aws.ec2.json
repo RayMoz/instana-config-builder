@@ -2,7 +2,7 @@
   "key": "com.instana.plugin.aws.ec2",
   "name": "AWS EC2",
   "category": "Cloud",
-  "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/index.html",
+  "docs": "https://www.ibm.com/docs/SSE1JP5_current/src/pages/ecosystem/aws-ec2/index.html",
   "source": "free",
   "fields": []
 }
