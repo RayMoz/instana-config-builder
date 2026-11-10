@@ -4,7 +4,7 @@
   "category": "Agent",
   "docs": "https://www.ibm.com/docs/SSE1JP5_current/src/pages/ecosystem/host/linux_host.html",
   "source": "ibm-docs",
-  "note": "Optionen laut IBM-Doku „Monitoring a Linux host“ und „Monitoring an AIX host“ (https://www.ibm.com/docs/SSE1JP5_current/src/pages/ecosystem/host/AIX_host.html); tags laut Beispielkonfiguration des Agents, configDisk aus der Praxis. Standardmäßig überwacht Instana nur lokale Dateisysteme.",
+  "note": "Optionen laut IBM-Doku „Monitoring a Linux host“, „Monitoring an AIX host“ (https://www.ibm.com/docs/SSE1JP5_current/src/pages/ecosystem/host/AIX_host.html) und „Monitoring a Windows host“ (https://www.ibm.com/docs/SSE1JP5_current/src/pages/ecosystem/host/windows_host.html); tags laut Beispielkonfiguration des Agents, configDisk aus der Praxis. Standardmäßig überwacht Instana nur lokale Dateisysteme.",
   "fields": [
     {
       "key": "tags",
@@ -13,9 +13,16 @@
       "placeholder": "production"
     },
     {
+      "key": "poll_rate",
+      "type": "integer",
+      "description": "Abfrageintervall des Host-Sensors (1–600 s, ab Host-Sensor 1.2.1)",
+      "default": 1,
+      "unit": "s"
+    },
+    {
       "key": "filesystems",
       "type": "oneOf",
-      "description": "Überwachte Dateisysteme nach Gerätenamen; unter Linux auch tmpfs:/mount/point oder server:/export",
+      "description": "Überwachte Dateisysteme nach Gerätenamen; unter Linux auch tmpfs:/mount/point oder server:/export, unter Windows Laufwerksbuchstaben (C, D – siehe Get-PSDrive -PSProvider FileSystem)",
       "alternatives": [
         {
           "type": "stringList",
@@ -182,6 +189,28 @@
       "unit": "s",
       "placeholder": "900",
       "os": ["aix"]
+    },
+    {
+      "key": "smb",
+      "type": "stringList",
+      "description": "Zu überwachende SMB-Freigaben als UNC-Pfad oder verbundenes Laufwerk (ab Windows Server 2019)",
+      "placeholder": "\\\\server\\smbshare",
+      "example": ["\\\\server\\smbshare", "Y:"],
+      "os": ["windows"]
+    },
+    {
+      "key": "winServiceRegex",
+      "type": "string",
+      "description": "Windows-Dienste überwachen, deren Name oder Anzeigename auf den regulären Ausdruck passt; ohne Angabe werden keine Dienste überwacht",
+      "placeholder": "(Sensor|Device)",
+      "os": ["windows"]
+    },
+    {
+      "key": "wsfcEnabled",
+      "type": "boolean",
+      "description": "Windows Server Failover Cluster überwachen (Knoten, Ressourcengruppen, CSV, Netzwerke; alle 60 s)",
+      "default": false,
+      "os": ["windows"]
     }
   ]
 }
