@@ -322,6 +322,45 @@ main {
 .card > .hd .sp {
   flex: 1;
 }
+.card.collapsed > .hd {
+  border-bottom: 0;
+}
+.card > .hd .tgl {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+.card > .hd .tgl:hover {
+  color: var(--accent);
+}
+.card > .hd .chev {
+  display: inline-block;
+  width: 1em;
+  color: var(--muted);
+  transition: transform 0.15s;
+}
+.card.collapsed > .hd .chev {
+  transform: rotate(-90deg);
+}
+.edbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.edbar .lbl {
+  color: var(--muted);
+  font-size: 12.5px;
+}
+.edbar .sp {
+  flex: 1;
+}
 .card > .bd {
   padding: 12px 14px;
   display: grid;
