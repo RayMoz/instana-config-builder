@@ -127,7 +127,7 @@
         },
         "unquoted": {
           "type": "boolean",
-          "description": "enum-Wert ohne Anführungszeichen schreiben (z. B. für false)"
+          "description": "enum-Wert bzw. stringList-Einträge ohne Anführungszeichen schreiben (z. B. für false oder Zahlen)"
         },
         "keyLabel": {
           "type": "string",
@@ -260,7 +260,7 @@
         },
         "unquoted": {
           "type": "boolean",
-          "description": "enum-Wert ohne Anführungszeichen schreiben (z. B. für false)"
+          "description": "enum-Wert bzw. stringList-Einträge ohne Anführungszeichen schreiben (z. B. für false oder Zahlen)"
         },
         "keyLabel": {
           "type": "string",

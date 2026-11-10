@@ -2,9 +2,17 @@
   "key": "com.instana.tracing",
   "name": "Tracing (agentweit)",
   "category": "Laufzeiten & Tracing",
-  "docs": "https://www.ibm.com/docs/SSE1JP5_current/src/pages/admin/optimize-data-ingest-in-instana.html",
+  "docs": "https://www.ibm.com/docs/SSE1JP5_current/src/pages/setup_and_manage/host_agent/configuration/configuring_tracers_using_agent_configuration_file.html",
   "source": "ibm-docs",
+  "note": "Optionen laut IBM-Doku „Configuring tracers by using the agent configuration file“; filter laut „Optimizing data ingest“ (https://www.ibm.com/docs/SSE1JP5_current/src/pages/admin/optimize-data-ingest-in-instana.html). Nicht jeder Tracer unterstützt jede Option – siehe Hinweis am Feld.",
   "fields": [
+    {
+      "key": "extra-http-headers",
+      "type": "stringList",
+      "description": "Zusätzlich erfasste HTTP-Header (Groß-/Kleinschreibung egal). Request-Header an Entry-Spans: alle Tracer; Response-Header an Entries: Go, Java, .NET, Node.js, Python, Ruby; Exit-Spans: Go, .NET, Node.js, Python, Ruby",
+      "placeholder": "x-request-id",
+      "example": ["x-request-id", "x-loadtest-id"]
+    },
     {
       "key": "kafka",
       "type": "object",
@@ -13,7 +21,7 @@
         {
           "key": "trace-correlation",
           "type": "boolean",
-          "description": "Kafka-Trace-Korrelation ein/aus"
+          "description": "Kafka-Trace-Korrelation ein/aus; abschalten nicht empfohlen. Bei Kafka Connect header.converter auf StringConverter setzen"
         },
         {
           "key": "header-format",
@@ -24,27 +32,105 @@
       ]
     },
     {
+      "key": "disable",
+      "type": "keyValue",
+      "description": "Tracing je Span-Typ oder Kategorie abschalten (true) bzw. ausdrücklich anlassen (false), z. B. redis, logging, console. Nur Node.js, Java, Python, PHP",
+      "keyPlaceholder": "redis",
+      "valueType": "boolean"
+    },
+    {
+      "key": "global",
+      "type": "object",
+      "description": "W3C-Trace-Context und Stacktraces",
+      "fields": [
+        {
+          "key": "disable-w3c-correlation",
+          "type": "boolean",
+          "description": "Eingehende traceparent/tracestate-Header ignorieren (nur Node.js)",
+          "default": false
+        },
+        {
+          "key": "disable-w3c-propagation",
+          "type": "boolean",
+          "description": "Keine traceparent/tracestate-Header in ausgehende Requests schreiben (nur Node.js)",
+          "default": false
+        },
+        {
+          "key": "disable-w3c",
+          "type": "boolean",
+          "description": "Korrelation und Weitergabe der W3C-Header abschalten (nur Node.js)",
+          "default": false
+        },
+        {
+          "key": "stack-trace-length",
+          "type": "integer",
+          "description": "Anzahl erfasster Aufrufstellen je Span, 0–500. Ab Node.js 5.2.0, Java 2.0.20, Python 3.10.0, Ruby 2.5.0, PHP 5.9.0",
+          "default": 10
+        },
+        {
+          "key": "stack-trace",
+          "type": "enum",
+          "description": "Wann Stacktraces erfasst werden: all, nur bei Fehlern (error) oder nie (none)",
+          "options": ["all", "error", "none"],
+          "default": "all"
+        }
+      ]
+    },
+    {
       "key": "ignore-endpoints",
       "type": "object",
-      "description": "Exit-Calls vom Tracing ausnehmen",
+      "description": "Exit-Calls vom Tracing ausnehmen (Node.js, Java, Python); nachgelagerte Calls entfallen ebenfalls. * steht für alle",
       "fields": [
         {
           "key": "redis",
           "type": "stringList",
           "description": "Redis-Kommandos",
-          "placeholder": "GET"
+          "placeholder": "get"
         },
         {
           "key": "dynamodb",
           "type": "stringList",
           "description": "DynamoDB-Operationen",
-          "placeholder": "Query"
+          "placeholder": "query"
         },
         {
           "key": "kafka",
           "type": "yaml",
-          "description": "Kafka: Methoden (consume, send, *) und Topics",
+          "description": "Kafka: Liste von Methoden (consume, send, *) oder Einträge mit methods und endpoints (Topics)",
           "example": "- methods: ['consume']\n  endpoints: ['healthcheck-topic']"
+        },
+        {
+          "key": "http",
+          "type": "stringList",
+          "description": "HTTP-Endpunkte (nur Node.js, nur eingehende Requests)",
+          "placeholder": "/health"
+        }
+      ]
+    },
+    {
+      "key": "http",
+      "type": "object",
+      "description": "HTTP-Statuscodes 4xx bei Exit-Calls als Fehler werten (Node.js, PHP); Entry-Calls nie",
+      "fields": [
+        {
+          "key": "exit",
+          "type": "object",
+          "description": "Ausgehende HTTP-Calls",
+          "fields": [
+            {
+              "key": "classify-all-4xx-as-errors",
+              "type": "boolean",
+              "description": "Alle Antworten mit 4xx als Fehler werten"
+            },
+            {
+              "key": "classify-as-errors",
+              "type": "stringList",
+              "description": "Nur diese Statuscodes (400–499) als Fehler werten; hat Vorrang vor classify-all-4xx-as-errors",
+              "placeholder": "401",
+              "example": ["401", "403"],
+              "unquoted": true
+            }
+          ]
         }
       ]
     },

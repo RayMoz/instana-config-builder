@@ -117,7 +117,7 @@ function emitField(f, v, ind, out) {
       if (!a.length) return;
       comment(f, ind, out);
       out.push(key);
-      a.forEach((x) => out.push(pad(ind + 2) + "- " + q(x)));
+      a.forEach((x) => out.push(pad(ind + 2) + "- " + (f.bare && /^[A-Za-z0-9_.\-]+$/.test(x) ? x : q(x))));
       return;
     }
     case "kv": {

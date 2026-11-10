@@ -39,7 +39,7 @@ Jede Datei unter `plugins/` beschreibt **einen** Schlüssel der obersten Ebene d
 | `integer`      | Zahlenfeld                     | `key: 10`                                      |
 | `boolean`      | – / true / false               | `key: true`                                    |
 | `enum`         | Auswahl aus `options`          | `key: 'wert'` (mit `unquoted: true` ohne '…')  |
-| `stringList`   | ein Eintrag pro Zeile          | Liste                                          |
+| `stringList`   | ein Eintrag pro Zeile          | Liste (mit `unquoted: true` z. B. Zahlen ohne '…') |
 | `keyValue`     | Schlüssel/Wert-Zeilen          | Mapping; `valueType: boolean` für true/false   |
 | `object`       | verschachtelte `fields`        | Mapping                                        |
 | `objectList`   | Einträge mit `fields`          | Liste von Mappings                             |

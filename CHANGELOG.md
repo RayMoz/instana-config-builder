@@ -24,6 +24,11 @@ Format nach [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionen 
   Klick auf eine freie Stelle der Kopfzeile (auch per Tastatur). Eingeklappt bleiben nur
   Kopfzeile und Schaltflächen sichtbar, dazu die Anzahl gesetzter Werte. „Alle einklappen“ und
   „Alle ausklappen“ über dem Editor; der Zustand wird im Browser gespeichert.
+- Tracing (agentweit): Optionen laut IBM-Doku „Configuring tracers by using the agent configuration
+  file“ – `extra-http-headers`, `disable`, `global` (W3C-Trace-Context, `stack-trace-length`,
+  `stack-trace`), `ignore-endpoints.http` und `http.exit` (4xx als Fehler). Hinweise am Feld nennen
+  die unterstützten Tracer. Doku-Link zeigt auf diese Seite.
+- Katalog: `unquoted` gilt auch für `stringList` (z. B. Statuscodes als Zahlen).
 
 ### Behoben
 
