@@ -1,10 +1,10 @@
 {
   "key": "com.instana.plugin.host",
-  "name": "Host (Linux)",
+  "name": "Host",
   "category": "Agent",
   "docs": "https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/host/linux_host.html",
   "source": "ibm-docs",
-  "note": "Optionen laut „Monitoring a Linux host“ (IBM-Doku 1.0.325), tags laut Beispielkonfiguration des Agents. Standardmäßig überwacht Instana nur lokale Dateisysteme.",
+  "note": "Optionen laut IBM-Doku „Monitoring a Linux host“ und „Monitoring an AIX host“ (https://www.ibm.com/docs/en/SSE1JP5/src/pages/ecosystem/host/AIX_host.html); tags laut Beispielkonfiguration des Agents, configDisk aus der Praxis. Standardmäßig überwacht Instana nur lokale Dateisysteme.",
   "fields": [
     {
       "key": "tags",
@@ -15,7 +15,7 @@
     {
       "key": "filesystems",
       "type": "oneOf",
-      "description": "Überwachte Dateisysteme: Gerätenamen, tmpfs:/mount/point oder server:/export",
+      "description": "Überwachte Dateisysteme nach Gerätenamen; unter Linux auch tmpfs:/mount/point oder server:/export",
       "alternatives": [
         {
           "type": "stringList",
@@ -45,9 +45,10 @@
       ]
     },
     {
-      "key": "nfs_all",
+      "key": "combineTopProcesses",
       "type": "boolean",
-      "description": "Alle NFS-Mounts überwachen"
+      "description": "Top-10 nach CPU und Speicher zu einer Liste (bis 20 Prozesse) zusammenfassen",
+      "default": false
     },
     {
       "key": "configDisk",
@@ -58,37 +59,129 @@
       "unquoted": true
     },
     {
-      "key": "collectInstalledSoftware",
+      "key": "nfs_all",
       "type": "boolean",
-      "description": "Installierte Pakete täglich auslesen (dpkg bzw. rpm/yum)"
+      "description": "Alle NFS-Mounts überwachen",
+      "os": ["linux"]
     },
     {
-      "key": "combineTopProcesses",
+      "key": "collectInstalledSoftware",
       "type": "boolean",
-      "description": "Top-10 nach CPU und Speicher zu einer Liste (bis 20 Prozesse) zusammenfassen"
+      "description": "Installierte Pakete täglich auslesen (dpkg bzw. rpm/yum)",
+      "os": ["linux"]
     },
     {
       "key": "getFileInfo",
       "type": "boolean",
-      "description": "Attribute der 10 größten Dateien/Verzeichnisse unter / erfassen"
+      "description": "Attribute der 10 größten Dateien/Verzeichnisse unter / erfassen",
+      "os": ["linux"]
     },
     {
       "key": "collectPagingActivity",
       "type": "boolean",
       "description": "Paging-Aktivität erfassen",
-      "default": false
+      "default": false,
+      "os": ["linux"]
     },
     {
       "key": "collectSystemProcess",
       "type": "boolean",
       "description": "Prozessstatistiken erfassen",
-      "default": false
+      "default": false,
+      "os": ["linux"]
     },
     {
       "key": "collectRpcActivity",
       "type": "boolean",
       "description": "RPC-Client- und -Server-Aktivität erfassen",
-      "default": false
+      "default": false,
+      "os": ["linux"]
+    },
+    {
+      "key": "collectSystemId",
+      "type": "boolean",
+      "description": "System-ID für den Abgleich mit Asset-Management-Systemen erfassen",
+      "os": ["aix"]
+    },
+    {
+      "key": "useMpstat",
+      "type": "boolean",
+      "description": "mpstat für genauere CPU-Werte in LPARs verwenden",
+      "os": ["aix"]
+    },
+    {
+      "key": "collectPhysicalProcessorUtil",
+      "type": "boolean",
+      "description": "Physische Prozessorauslastung, Hypervisor-Calls und Stolen Cycles (Hypervisor-Calls nur bei root)",
+      "default": false,
+      "os": ["aix"]
+    },
+    {
+      "key": "collectIndividualCpuMetrics",
+      "type": "boolean",
+      "description": "CPU-Werte je Prozessor (Mehraufwand bei vielen CPUs)",
+      "default": false,
+      "os": ["aix"]
+    },
+    {
+      "key": "collectIOActivity",
+      "type": "boolean",
+      "description": "I/O-Aktivität von Anwendungen und physischen Disks",
+      "default": true,
+      "os": ["aix"]
+    },
+    {
+      "key": "collectProcessStatistics",
+      "type": "boolean",
+      "description": "Prozess- und Thread-Zustände (runnable, sleeping, zombie …)",
+      "default": true,
+      "os": ["aix"]
+    },
+    {
+      "key": "collectAllDisks",
+      "type": "boolean",
+      "description": "Alle Disks statt der Top 10 nach Auslastung",
+      "os": ["aix"]
+    },
+    {
+      "key": "collectAllVolumeGroups",
+      "type": "boolean",
+      "description": "Alle Volume Groups (und Physical Volumes) statt der Top 10",
+      "os": ["aix"]
+    },
+    {
+      "key": "collectAllLogicalVolumes",
+      "type": "boolean",
+      "description": "Alle Logical Volumes statt der Top 10",
+      "os": ["aix"]
+    },
+    {
+      "key": "collectAllAixFilesystems",
+      "type": "boolean",
+      "description": "Alle Dateisysteme statt der Top 10 nach Kapazität",
+      "os": ["aix"]
+    },
+    {
+      "key": "collectNfsStatistics",
+      "type": "boolean",
+      "description": "NFS-v2/v3/v4-Client- und -Server-Statistiken (NFS muss gemountet sein)",
+      "default": false,
+      "os": ["aix"]
+    },
+    {
+      "key": "collectRpcStatistics",
+      "type": "boolean",
+      "description": "RPC-Client- und -Server-Statistiken (NFS-Mount oder NFS-Server nötig)",
+      "default": false,
+      "os": ["aix"]
+    },
+    {
+      "key": "aixEventsPollRate",
+      "type": "integer",
+      "description": "Abfrageintervall für errpt-Fehlerereignisse; erst durch Setzen werden AIX-Events aktiv",
+      "unit": "s",
+      "placeholder": "900",
+      "os": ["aix"]
     }
   ]
 }

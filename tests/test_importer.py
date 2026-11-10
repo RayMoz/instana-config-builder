@@ -33,6 +33,20 @@ class ImporterTest(unittest.TestCase):
             b["filesystems"], {"include": ["/dev/xvdd", "tmpfs:/tmp"], "exclude": ["/dev/xvda2"]}
         )
 
+    def test_host_aix_example(self):
+        r = section(import_yaml(fixture("host-aix.yaml"), BY_KEY), "com.instana.plugin.host")
+        self.assertEqual(r["extra"], "", "alle AIX-Optionen sollten im Katalog stehen")
+        v = r["values"]
+        self.assertEqual(v["aixEventsPollRate"], "900")
+        self.assertEqual(v["collectIOActivity"], "false")
+        self.assertEqual(v["filesystems"]["exclude"], ["/dev/hd10opt"])
+
+    def test_host_os_tags(self):
+        fields = {f["k"]: f for f in BY_KEY["com.instana.plugin.host"]["fields"]}
+        self.assertEqual(fields["useMpstat"]["os"], ["aix"])
+        self.assertEqual(fields["nfs_all"]["os"], ["linux"])
+        self.assertNotIn("os", fields["filesystems"])
+
     def test_unknown_subkeys_fall_back_to_yaml(self):
         text = "com.instana.plugin.javatrace:\n  instrumentation:\n    enabled: true\n    neuesFeature: 1\n"
         v = section(import_yaml(text, BY_KEY), "com.instana.plugin.javatrace")["values"]

@@ -439,7 +439,52 @@ function renderCard(key, idx) {
           : "Für dieses Plugin sind keine Optionen im Katalog hinterlegt. Trage die Konfiguration aus der Doku als YAML ein.",
       ),
     );
-  for (const f of c.fields) bd.append(renderField(f, p.values, rerender));
+  const osList = [...new Set(c.fields.flatMap((f) => f.os || []))];
+  const view = osList.length ? (S.osView && S.osView[key]) || "all" : "all";
+  if (osList.length) {
+    const bar = el("div", {
+      class: "osbar",
+      role: "radiogroup",
+      "aria-label": "Optionen für Betriebssystem",
+    });
+    bar.append(el("span", { class: "lbl" }, "Optionen für"));
+    for (const o of ["all", ...osList]) {
+      bar.append(
+        el(
+          "button",
+          {
+            type: "button",
+            class: "chip",
+            role: "radio",
+            "aria-pressed": String(view === o),
+            "aria-checked": String(view === o),
+            onclick: () => {
+              S.osView = S.osView || {};
+              S.osView[key] = o;
+              rerender();
+            },
+          },
+          o === "all" ? "Alle" : OS_LABEL[o] || o,
+        ),
+      );
+    }
+    bd.append(bar);
+  }
+  let hidden = 0;
+  for (const f of c.fields) {
+    const show = view === "all" || !f.os || f.os.includes(view) || hasValue(p.values[f.k]);
+    if (show) bd.append(renderField(f, p.values, rerender));
+    else hidden++;
+  }
+  if (hidden)
+    bd.append(
+      el(
+        "div",
+        { class: "note" },
+        hidden +
+          " Option(en) für andere Betriebssysteme ausgeblendet. Gesetzte Werte bleiben immer sichtbar.",
+      ),
+    );
   const ta = el("textarea", {
     class: "inp",
     rows: c.fields.length ? 3 : 6,
@@ -471,6 +516,21 @@ function move(key, d) {
   refresh();
 }
 
+const OS_LABEL = {
+  linux: "Linux",
+  aix: "AIX",
+  windows: "Windows",
+  solaris: "Solaris",
+  macos: "macOS",
+  ibmi: "IBM i",
+  zos: "z/OS",
+};
+function hasValue(v) {
+  if (v == null || v === "") return false;
+  if (Array.isArray(v)) return v.length > 0;
+  if (typeof v === "object" && !isRaw(v)) return Object.values(v).some(hasValue);
+  return true;
+}
 function label(f) {
   const dv =
     f.def !== undefined
@@ -481,6 +541,7 @@ function label(f) {
     { class: "lab" },
     el("b", { text: f.k }),
     f.u ? el("span", { class: "u", text: "[" + f.u + "]" }) : null,
+    ...(f.os || []).map((o) => el("span", { class: "osb", text: OS_LABEL[o] || o })),
     f.d ? el("span", { class: "d", text: f.d }) : null,
     dv,
   );
@@ -1282,6 +1343,7 @@ $("optComments").onchange = (e) => {
     S.order = saved.order.filter((k) => saved.plugins[k]);
     S.plugins = saved.plugins;
     S.uploadName = saved.uploadName || "";
+    S.osView = saved.osView || {};
   }
   setFile((saved && saved.file) || "");
   renderCatalog();

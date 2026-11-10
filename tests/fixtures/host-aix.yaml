@@ -1,0 +1,22 @@
+# Beispiel nach IBM-Doku „Monitoring an AIX host“
+com.instana.plugin.host:
+  collectSystemId: true
+  useMpstat: true
+  collectPhysicalProcessorUtil: true
+  collectIndividualCpuMetrics: true
+  collectIOActivity: false
+  collectProcessStatistics: false
+  collectAllDisks: true
+  collectAllVolumeGroups: true
+  collectAllLogicalVolumes: true
+  filesystems:
+    include:
+      - '/dev/hd11admin'
+      - '/dev/livedump'
+    exclude:
+      - '/dev/hd10opt'
+  collectAllAixFilesystems: true
+  collectNfsStatistics: true
+  collectRpcStatistics: true
+  combineTopProcesses: true
+  aixEventsPollRate: 900
