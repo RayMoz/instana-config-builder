@@ -21,6 +21,9 @@ python3 instana_config_builder.py --port 0 --no-browser
 
 # eigenen Katalog verwenden (z. B. Kundenvariante)
 python3 instana_config_builder.py --catalog ./mein-katalog
+
+# Konfigurations-Repository an anderem Ort (Standard: ./repository)
+python3 instana_config_builder.py --repo ~/instana-configs
 ```
 
 Voraussetzung: Python 3.7 oder neuer. Ist [PyYAML](https://pypi.org/project/PyYAML/) installiert,
@@ -33,12 +36,45 @@ ab; Anker, Aliase und Tags werden nicht unterstützt).
   Plugins erscheinen als Formulare; unbekannte Optionen bleiben als „zusätzliches YAML“ erhalten.
 - **Speichern / Speichern unter:** Verzeichnis und Dateinamen frei wählbar, Rückfrage vor dem
   Überschreiben, automatische `.bak`-Sicherung mit Zeitstempel.
+- **Ins Repository:** legt die Datei in einem lokalen Konfigurations-Repository ab. Verzeichnis und
+  Dateiname ergeben sich aus den Tags (siehe unten).
 - **Formulare** für rund 60 Sensoren mit dokumentierten Optionen, Standardwerten und Doku-Link;
   weitere rund 90 Plugin-Schlüssel mit freiem YAML. Eigene Schlüssel lassen sich hinzufügen.
 - **Live-Vorschau** der YAML, optional mit Beschreibungen als Kommentar, Syntaxprüfung inklusive
   doppelter Schlüssel, Kopieren und Herunterladen.
 
 Der Server lauscht nur auf `127.0.0.1` und lehnt Schreibzugriffe fremder Webseiten ab.
+
+## Konfigurations-Repository (Vorbereitung auf Fleet Management)
+
+Mit Instana Agent Fleet Management (derzeit Preview) werden Konfigurationsdateien mit
+`instana-fleet import-config --include <datei>` hochgeladen und mit
+`instana-fleet update-config --tag team=Organisation …` an alle Agenten mit diesem Tag verteilt. Das
+Repository legt die Dateien so ab, dass der Pfad zum Selektor passt:
+
+```
+repository/
+  .icb-repo.json                      gespeichertes Muster
+  team=Organisation/
+    env=production/
+      configuration-shop.yaml         Tags: team=Organisation, env=production, shop
+      configuration-availability-zone.yaml   Name „availability-zone“ im Dialog
+```
+
+Der Pfad wird aus einem Muster gebildet (Standard `team={tag:team}/env={tag:env}/configuration-{name}.yaml`):
+
+| Platzhalter | Wert |
+|---|---|
+| `{tag:KEY}` | Wert des Tags `KEY=wert` (oder `KEY:wert`) aus `com.instana.plugin.host` → `tags` |
+| `{zone}` | `availability-zone` aus `com.instana.plugin.generic.hardware` |
+| `{tags}` | alle übrigen Tags, mit „-“ verbunden (bei `KEY=wert` nur der Wert) |
+| `{name}` | Name aus dem Feld im Dialog, z. B. `availability-zone` → `configuration-availability-zone.yaml`; leer: wie `{tags}` |
+
+Fehlt ein Wert, entfällt die Verzeichnisebene. Auf dem Agenten erlaubt sind nur
+`configuration.yaml` und `configuration-<suffix>.yaml`; bei anderen Namen warnt der Dialog. Das
+Muster lässt sich im Dialog ändern und wird beim Speichern in `.icb-repo.json` abgelegt.
+
+Die Dateien gehören nicht ins Git: `repository/` und alle `configuration*.yaml` stehen in `.gitignore`.
 
 ## Projektstruktur
 
@@ -49,6 +85,7 @@ icb/                        Python-Paket
   importer.py               YAML ↔ Formularwerte
   yamlio.py, miniyaml.py    YAML lesen/schreiben (PyYAML oder eingebaut)
   files.py                  Öffnen, Verzeichnisliste, Speichern
+  repo.py                   Konfigurations-Repository: Pfad aus Tags
   server.py                 HTTP-Server und Kommandozeile
 web/                        Oberfläche (index.html, app.js, app.css)
 catalog/                    Plugin-Katalog (eine JSON-Datei pro Plugin)
