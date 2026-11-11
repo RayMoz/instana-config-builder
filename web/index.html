@@ -19,6 +19,13 @@
         <button class="btn" id="bOpen" title="YAML-Datei einlesen">Öffnen …</button>
         <button class="btn primary" id="bSave" title="In die aktuelle Datei speichern">Speichern</button>
         <button class="btn" id="bSaveAs" title="Verzeichnis und Dateinamen wählen">Speichern unter …</button>
+        <button
+          class="btn repo"
+          id="bRepo"
+          title="Im Konfigurations-Repository ablegen – Verzeichnis und Dateiname ergeben sich aus den Tags"
+        >
+          Ins Repository …
+        </button>
         <span class="vsep"></span>
         <button class="btn" id="bValidate">Prüfen</button>
         <button class="btn" id="bCopy">Kopieren</button>
@@ -74,6 +81,7 @@
         <div class="dlg-path">
           <button type="button" class="btn small" id="dUp" title="Übergeordnetes Verzeichnis">↑</button
           ><button type="button" class="btn small" id="dHome" title="Home-Verzeichnis">~</button
+          ><button type="button" class="btn small" id="dRepo" title="Konfigurations-Repository">Repository</button
           ><input id="dDir" spellcheck="false" aria-label="Verzeichnis" /><button
             type="button"
             class="btn small"
@@ -102,6 +110,53 @@
           >
           <span class="sp"></span>
           <button type="button" class="btn primary" id="dOk">Öffnen</button>
+        </div>
+      </form>
+    </dialog>
+    <dialog id="rdlg" aria-labelledby="rTitle">
+      <form method="dialog" class="dlg">
+        <div class="dlg-hd">
+          <h2 id="rTitle">Ins Repository speichern</h2>
+          <button class="btn small" value="cancel" formnovalidate>Schließen</button>
+        </div>
+        <div class="rbody">
+          <div class="rrow"><span class="lbl">Repository</span><code id="rDir"></code></div>
+          <div class="rrow">
+            <span class="lbl">Tags</span><span id="rTags" class="rtags"></span>
+          </div>
+          <div class="rrow">
+            <label class="lbl" for="rName">Name</label>
+            <span class="rname"
+              ><span class="fix">configuration-</span><input id="rName" spellcheck="false" /><span class="fix"
+                >.yaml</span
+              ></span
+            >
+          </div>
+          <div class="rrow">
+            <label class="lbl" for="rPattern">Muster</label>
+            <input id="rPattern" spellcheck="false" />
+            <button type="button" class="btn small" id="rDefault" title="Standardmuster einsetzen">Standard</button>
+          </div>
+          <p class="rhelp">
+            <code>{tag:KEY}</code> Wert des Tags <code>KEY=wert</code> ·
+            <code>{zone}</code> availability-zone ·
+            <code>{tags}</code> übrige Tags, mit „-“ verbunden ·
+            <code>{name}</code> Name aus dem Feld oben (leer: wie <code>{tags}</code>). Fehlt ein Wert, entfällt
+            die Verzeichnisebene.
+            Verzeichnisse wie <code>team=Organisation</code> entsprechen dem Selektor <code>instana-fleet … --tag team=Organisation</code>.
+          </p>
+          <div class="rtarget">
+            <span class="lbl">Zieldatei</span>
+            <code id="rRel"></code>
+            <span id="rState" class="tag"></span>
+          </div>
+          <div class="dlg-msg" id="rMsg" hidden></div>
+        </div>
+        <div class="dlg-ft">
+          <label class="opt"><input type="checkbox" id="rBak" checked /> Sicherung (.bak) anlegen</label>
+          <span class="sp"></span>
+          <button class="btn" value="cancel" formnovalidate>Abbrechen</button>
+          <button type="button" class="btn primary" id="rOk">Speichern</button>
         </div>
       </form>
     </dialog>

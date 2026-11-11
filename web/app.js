@@ -1346,6 +1346,113 @@ $("dlg").addEventListener("close", () => {
   $("dOk").textContent = D.mode === "open" ? "Öffnen" : "Speichern";
 });
 
+/* Konfigurations-Repository */
+const R = { timer: null, target: null, confirm: false };
+function rmsg(t, kind) {
+  const m = $("rMsg");
+  m.hidden = !t;
+  m.textContent = t || "";
+  m.style.background = kind === "bad" ? "var(--bad-bg)" : "";
+  m.style.color = kind === "bad" ? "var(--bad)" : "";
+}
+async function repoPreview() {
+  R.confirm = false;
+  $("rOk").textContent = "Speichern";
+  const r = await api("/api/repo/target", {
+    yaml: lastText,
+    pattern: $("rPattern").value,
+    name: $("rName").value,
+  });
+  R.target = r.ok ? r : null;
+  if (!r.ok) {
+    $("rRel").textContent = "–";
+    $("rState").textContent = "";
+    rmsg(r.message, "bad");
+    return;
+  }
+  $("rRel").textContent = r.rel;
+  if (!$("rName").value.trim())
+    $("rName").placeholder = r.used.name ? r.used.name + " (aus Tags)" : "z. B. availability-zone";
+  $("rName").disabled = !/\{name\}/.test($("rPattern").value);
+  $("rState").className = "tag" + (r.exists ? " warn" : " doc");
+  $("rState").textContent = r.exists ? "existiert bereits" : "neu";
+  const T = $("rTags");
+  T.innerHTML = "";
+  if (!r.tags.length) T.append(el("span", { class: "none", text: "keine – im Abschnitt Host unter tags setzen" }));
+  r.tags.forEach((t) => T.append(el("code", { class: "rtag", text: t })));
+  if (r.zone) T.append(el("code", { class: "rtag zone", text: "Zone: " + r.zone }));
+  const notes = [];
+  if (r.missing.length) notes.push("Ohne Wert: " + r.missing.map((m) => "{" + m + "}").join(", ") + ".");
+  notes.push(...(r.warnings || []));
+  rmsg(notes.join(" "), r.warnings && r.warnings.length ? "bad" : "");
+}
+function openRepoDialog() {
+  if (!S.order.length) {
+    setStatus("info", "Die Konfiguration ist leer – zuerst Plugins auswählen.");
+    return;
+  }
+  $("rDir").textContent = INFO.repo.dir;
+  $("rPattern").value = INFO.repo.pattern;
+  /* Name der zuletzt gespeicherten/geöffneten Datei vorschlagen */
+  const m = /(?:^|[\\/])configuration-([^\\/]+)\.ya?ml$/i.exec(S.file || "");
+  $("rName").value = m ? m[1] : "";
+  rmsg("");
+  $("rdlg").showModal();
+  repoPreview();
+  setTimeout(() => $("rName").focus(), 30);
+}
+$("bRepo").onclick = openRepoDialog;
+for (const id of ["rName", "rPattern"]) {
+  $(id).addEventListener("input", () => {
+    clearTimeout(R.timer);
+    R.timer = setTimeout(repoPreview, 200);
+  });
+  $(id).addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      $("rOk").click();
+    }
+  });
+}
+$("rDefault").onclick = () => {
+  $("rPattern").value = INFO.repo.default;
+  repoPreview();
+};
+$("rOk").onclick = async () => {
+  if (!R.target) return;
+  const pattern = $("rPattern").value;
+  const r = await api("/api/repo/save", {
+    yaml: lastText,
+    pattern,
+    name: $("rName").value,
+    overwrite: R.confirm,
+    backup: $("rBak").checked,
+  });
+  if (r.ok) {
+    INFO.repo.pattern = pattern;
+    setFile(r.path);
+    savedText = lastText;
+    S.uploadName = "";
+    persist();
+    setStatus("ok", "Im Repository gespeichert: " + r.rel);
+    $("rdlg").close();
+    return;
+  }
+  if (r.exists) {
+    R.confirm = true;
+    rmsg(
+      "„" +
+        r.rel +
+        "“ existiert bereits. Nochmals auf „Überschreiben“ klicken, um die Datei zu ersetzen" +
+        ($("rBak").checked ? " (eine .bak-Sicherung wird angelegt)." : "."),
+    );
+    $("rOk").textContent = "Überschreiben";
+    return;
+  }
+  rmsg(r.message, "bad");
+};
+$("dRepo").onclick = () => loadDir(INFO.repo.dir);
+
 function loadState(plugins) {
   S.order = [];
   S.plugins = {};

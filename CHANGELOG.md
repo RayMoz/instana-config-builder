@@ -29,6 +29,15 @@ Format nach [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionen 
   `stack-trace`), `ignore-endpoints.http` und `http.exit` (4xx als Fehler). Hinweise am Feld nennen
   die unterstützten Tracer. Doku-Link zeigt auf diese Seite.
 - Katalog: `unquoted` gilt auch für `stringList` (z. B. Statuscodes als Zahlen).
+- Konfigurations-Repository als Vorbereitung auf Instana Agent Fleet Management: „Ins Repository …“
+  legt die Datei unter einem Pfad ab, der sich aus den Host-Tags ergibt, standardmäßig
+  `team=<team>/env=<env>/configuration-<name>.yaml` – passend zum Selektor
+  `instana-fleet update-config --tag team=…`. Den Namen gibt man im Dialog ein (leer: übrige Tags),
+  z. B. für Drop-ins wie `configuration-availability-zone.yaml`. Muster mit `{tag:KEY}`, `{zone}`,
+  `{tags}`, `{name}` im Dialog
+  änderbar und im Repository gespeichert; Warnung bei Dateinamen, die der Agent nicht annimmt.
+  Neue Option `--repo` (Standard `./repository`); Sprung ins Repository im Öffnen-Dialog.
+- `.gitignore`: `repository/` und `configuration*.yaml` in allen Verzeichnissen.
 
 ### Behoben
 

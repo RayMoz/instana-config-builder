@@ -13,6 +13,7 @@ from . import VERSION
 from .catalog import CatalogError, default_dir, load_catalog
 from .files import list_dir, open_file, save_file
 from .importer import import_yaml, validate_yaml
+from .repo import Repo
 from .yamlio import BACKEND
 
 WEB_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "web")
@@ -26,6 +27,7 @@ STATIC = {
 class Handler(BaseHTTPRequestHandler):
     server_version = "InstanaConfigBuilder/" + VERSION
     cfg = {}  # input, output
+    repo = None  # Repo
     catalog = []  # interne Form
     categories = []
     by_key = {}
@@ -87,6 +89,7 @@ class Handler(BaseHTTPRequestHandler):
                     "sep": os.sep,
                     "initial": initial,
                     "error": err,
+                    "repo": self.repo.info(),
                 },
             )
         elif path == "/api/ls":
@@ -126,11 +129,30 @@ class Handler(BaseHTTPRequestHandler):
                     backup=body.get("backup", True),
                 ),
             )
+        elif path == "/api/repo/target":
+            try:
+                self._json(200, dict(ok=True, **self.repo.target(body.get("yaml", ""), body.get("pattern"), body.get("name", ""))))
+            except Exception as e:  # noqa: BLE001
+                self._json(200, {"ok": False, "message": str(e)})
+        elif path == "/api/repo/save":
+            try:
+                self._json(
+                    200,
+                    self.repo.save(
+                        body.get("yaml", ""),
+                        body.get("pattern"),
+                        overwrite=bool(body.get("overwrite")),
+                        backup=body.get("backup", True),
+                        name=body.get("name", ""),
+                    ),
+                )
+            except Exception as e:  # noqa: BLE001
+                self._json(200, {"ok": False, "message": str(e)})
         else:
             self._json(404, {"ok": False, "message": "Unbekannter Endpunkt"})
 
 
-def make_server(port=0, catalog_dir=None, input_path=None, output="configuration.yaml"):
+def make_server(port=0, catalog_dir=None, input_path=None, output="configuration.yaml", repo="repository"):
     """Erzeugt den Server (für Start und Tests)."""
     plugins, categories, _ = load_catalog(catalog_dir)
     handler = type(
@@ -138,6 +160,7 @@ def make_server(port=0, catalog_dir=None, input_path=None, output="configuration
         (Handler,),
         {
             "cfg": {"input": input_path, "output": input_path or output},
+            "repo": Repo(repo),
             "catalog": plugins,
             "categories": categories,
             "by_key": {p["key"]: p for p in plugins},
@@ -150,6 +173,9 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description="Instana configuration.yaml Builder (lokale Web-UI)")
     ap.add_argument("--input", help="bestehende configuration.yaml beim Start laden")
     ap.add_argument("--output", default="configuration.yaml", help="Standardpfad zum Speichern")
+    ap.add_argument(
+        "--repo", default="repository", help="Verzeichnis des Konfigurations-Repositorys (Standard: ./repository)"
+    )
     ap.add_argument("--catalog", default=None, help="anderes Katalogverzeichnis (Standard: ./catalog)")
     ap.add_argument("--port", type=int, default=8765, help="Port (0 = automatisch)")
     ap.add_argument("--no-browser", action="store_true", help="Browser nicht öffnen")
@@ -157,7 +183,7 @@ def main(argv=None):
     args = ap.parse_args(argv)
 
     try:
-        httpd = make_server(args.port, args.catalog, args.input, args.output)
+        httpd = make_server(args.port, args.catalog, args.input, args.output, args.repo)
     except CatalogError as e:
         print(str(e), file=sys.stderr)
         print("Tipp: python3 tools/validate_catalog.py zeigt alle Fehler.", file=sys.stderr)
@@ -175,6 +201,7 @@ def main(argv=None):
         "Katalog: %s – %d Plugins (davon %d mit Optionen)"
         % (args.catalog or default_dir(), len(h.catalog), sum(1 for p in h.catalog if p["fields"]))
     )
+    print("Repository: %s" % h.repo.root)
     print("YAML-Leser: %s" % (BACKEND if BACKEND == "PyYAML" else "eingebaut (PyYAML nicht installiert)"))
     print("Beenden mit Strg+C", flush=True)
     if not args.no_browser:
