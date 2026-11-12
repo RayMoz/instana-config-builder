@@ -1453,6 +1453,202 @@ $("rOk").onclick = async () => {
 };
 $("dRepo").onclick = () => loadDir(INFO.repo.dir);
 
+/* Endgültige Konfiguration: mehrere Dateien wie der Agent zusammenführen */
+const M = { dir: "", res: null };
+const isAgentName = (n) => /^configuration(-[^\/\\]+)?\.yaml$/.test(n);
+const baseName = (p) => p.split(/[\\/]/).pop();
+function mergeOrder(paths) {
+  /* gleiche Reihenfolge wie icb/merge.py: configuration.yaml zuerst, sonst Zeichencode */
+  const key = (p) => (baseName(p) === "configuration.yaml" ? "" : baseName(p));
+  return [...paths].sort((a, b) => {
+    const ka = key(a), kb = key(b);
+    return ka < kb ? -1 : ka > kb ? 1 : a < b ? -1 : a > b ? 1 : 0;
+  });
+}
+function mFiles() {
+  return (S.mergeFiles = S.mergeFiles || []);
+}
+function renderMergeSel() {
+  const L = $("mSel");
+  L.innerHTML = "";
+  const files = mergeOrder(mFiles());
+  const seen = {};
+  for (const p of files) {
+    const n = baseName(p);
+    const note = !isAgentName(n)
+      ? "wird vom Agenten nicht gelesen"
+      : seen[n]
+        ? "gleicher Dateiname doppelt"
+        : "";
+    seen[n] = true;
+    const rm = el("button", { type: "button", class: "btn small", title: "Aus der Auswahl entfernen", text: "Entfernen" });
+    rm.onclick = () => {
+      S.mergeFiles = mFiles().filter((x) => x !== p);
+      persist();
+      renderMergeSel();
+      loadMergeDir(M.dir);
+    };
+    L.append(
+      el(
+        "li",
+        { class: note ? "bad" : "" },
+        el("div", { class: "nm" }, el("strong", { text: n }), note ? el("span", { class: "tag warn", text: note }) : null),
+        el("div", { class: "dir", text: "\u200E" + p.slice(0, p.length - n.length - 1) + "\u200E", title: p }),
+        rm,
+      ),
+    );
+  }
+  if (!files.length) L.append(el("li", { class: "none", text: "Noch keine Dateien ausgewählt – links Dateien anhaken." }));
+  $("mCount").textContent = files.length + " Datei(en)";
+  $("mRun").disabled = !files.length;
+}
+async function loadMergeDir(d) {
+  const r = await (await fetch("/api/ls?dir=" + encodeURIComponent(d))).json();
+  M.dir = r.dir;
+  M.parent = r.parent;
+  S.mergeDir = r.dir;
+  $("mDir").value = r.dir;
+  const L = $("mList");
+  L.innerHTML = "";
+  if (r.error) {
+    L.append(el("div", { class: "none" }, "Kein Zugriff: " + r.error));
+    return;
+  }
+  if (!r.entries.length) L.append(el("div", { class: "none" }, "Keine Unterordner oder YAML-Dateien."));
+  M.here = [];
+  for (const e of r.entries) {
+    const full = join(r.dir, e.name);
+    if (e.type === "dir") {
+      const b = el("button", { type: "button" }, el("span", { class: "ic", text: "📁" }), el("span", { text: e.name }));
+      b.onclick = () => loadMergeDir(full);
+      L.append(b);
+      continue;
+    }
+    if (isAgentName(e.name)) M.here.push(full);
+    const cb = el("input", { type: "checkbox" });
+    cb.checked = mFiles().includes(full);
+    cb.onchange = () => {
+      S.mergeFiles = cb.checked ? [...mFiles(), full] : mFiles().filter((x) => x !== full);
+      persist();
+      renderMergeSel();
+    };
+    L.append(
+      el(
+        "label",
+        { class: "mfile" + (isAgentName(e.name) ? "" : " dim"), title: isAgentName(e.name) ? full : "Der Agent liest nur configuration.yaml und configuration-*.yaml" },
+        cb,
+        el("span", { class: "ic", text: "📄" }),
+        el("span", { text: e.name }),
+        el("span", { class: "meta", text: e.mtime }),
+      ),
+    );
+  }
+  $("mAddAll").disabled = !M.here.length;
+}
+function openMergeDialog() {
+  $("mResult").hidden = true;
+  renderMergeSel();
+  const start = S.mergeDir || (S.file ? S.file.slice(0, S.file.length - baseName(S.file).length - 1) : INFO.repo.dir);
+  loadMergeDir(start);
+  $("mdlg").showModal();
+}
+$("bMerge").onclick = openMergeDialog;
+$("mUp").onclick = () => M.parent && loadMergeDir(M.parent);
+$("mHome").onclick = () => loadMergeDir(INFO.home);
+$("mRepo").onclick = () => loadMergeDir(INFO.repo.dir);
+$("mDir").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    loadMergeDir($("mDir").value);
+  }
+});
+$("mAddAll").onclick = () => {
+  S.mergeFiles = [...new Set([...mFiles(), ...M.here])];
+  persist();
+  renderMergeSel();
+  loadMergeDir(M.dir);
+};
+$("mClear").onclick = () => {
+  S.mergeFiles = [];
+  persist();
+  renderMergeSel();
+  loadMergeDir(M.dir);
+  $("mResult").hidden = true;
+};
+function showMergeYaml() {
+  if (!M.res) return;
+  const t = $("mOrigin").checked ? M.res.annotated : M.res.yaml;
+  const esc = (x) => x.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  $("mYaml").innerHTML = t
+    .split("\n")
+    .map((l) => {
+      const i = l.lastIndexOf("  # ");
+      if (i < 0 || !$("mOrigin").checked) return highlight(l);
+      const c = esc(l.slice(i)).replace(/⟵ überschreibt.*/, (x) => '<span class="ovr">' + x + "</span>");
+      return highlight(l.slice(0, i)) + '<span class="morig">' + c + "</span>";
+    })
+    .join("\n");
+}
+$("mOrigin").onchange = showMergeYaml;
+$("mRun").onclick = async () => {
+  const r = await api("/api/merge", { paths: mFiles() });
+  $("mResult").hidden = false;
+  const msg = $("mMsg");
+  if (!r.ok) {
+    M.res = null;
+    msg.hidden = false;
+    msg.textContent = r.message;
+    $("mConf").innerHTML = "";
+    $("mYaml").textContent = "";
+    return;
+  }
+  M.res = r;
+  const notes = [...r.warnings];
+  r.order.filter((e) => !e.used).forEach((e) => notes.push(e.name + ": " + e.note));
+  msg.hidden = !notes.length;
+  msg.textContent = notes.join(" · ");
+  const C = $("mConf");
+  C.innerHTML = "";
+  $("mConfN").textContent = String(r.conflicts.length);
+  if (!r.conflicts.length) C.append(el("p", { class: "rhelp", text: "Keine Option wird in mehreren Dateien unterschiedlich gesetzt." }));
+  else {
+    const tb = el("tbody");
+    for (const c of r.conflicts) {
+      const last = c.steps[c.steps.length - 1];
+      tb.append(
+        el(
+          "tr",
+          {},
+          el("td", {}, el("code", { text: c.path.join(" › ") })),
+          el("td", {}, el("code", { class: "win", text: last.text }), el("div", { class: "src", text: last.file })),
+          el(
+            "td",
+            {},
+            ...c.steps.slice(0, -1).map((s) => el("div", { class: "lost" }, el("code", { text: s.text }), " ", el("span", { class: "src", text: s.file }))),
+          ),
+        ),
+      );
+    }
+    C.append(el("table", { class: "mconf" }, el("thead", {}, el("tr", {}, el("th", { text: "Option" }), el("th", { text: "Endgültiger Wert" }), el("th", { text: "Überschrieben" }))), tb));
+  }
+  showMergeYaml();
+  setTimeout(() => $("mResult").scrollIntoView({ behavior: "smooth", block: "start" }), 30);
+};
+$("mCopy").onclick = async () => {
+  if (!M.res) return;
+  try {
+    await navigator.clipboard.writeText($("mOrigin").checked ? M.res.annotated : M.res.yaml);
+    $("mCopy").textContent = "Kopiert";
+    setTimeout(() => ($("mCopy").textContent = "Kopieren"), 1500);
+  } catch (e) {
+    /* Zwischenablage nicht verfügbar */
+  }
+};
+$("mToEditor").onclick = async () => {
+  if (!M.res) return;
+  if (await importText(M.res.yaml, "configuration-endgueltig.yaml")) $("mdlg").close();
+};
+
 function loadState(plugins) {
   S.order = [];
   S.plugins = {};
@@ -1522,6 +1718,8 @@ $("optComments").onchange = (e) => {
     S.uploadName = saved.uploadName || "";
     S.osView = saved.osView || {};
     S.collapsed = saved.collapsed || {};
+    S.mergeFiles = saved.mergeFiles || [];
+    S.mergeDir = saved.mergeDir || "";
   }
   setFile((saved && saved.file) || "");
   renderCatalog();

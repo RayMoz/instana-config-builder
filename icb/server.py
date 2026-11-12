@@ -13,6 +13,7 @@ from . import VERSION
 from .catalog import CatalogError, default_dir, load_catalog
 from .files import list_dir, open_file, save_file
 from .importer import import_yaml, validate_yaml
+from .merge import evaluate
 from .repo import Repo
 from .yamlio import BACKEND
 
@@ -129,6 +130,18 @@ class Handler(BaseHTTPRequestHandler):
                     backup=body.get("backup", True),
                 ),
             )
+        elif path == "/api/merge":
+            paths = [p for p in body.get("paths") or [] if isinstance(p, str) and p.strip()]
+            if not paths:
+                self._json(200, {"ok": False, "message": "Keine Dateien ausgewählt."})
+                return
+            try:
+                self._json(
+                    200,
+                    evaluate([os.path.abspath(os.path.expanduser(p)) for p in paths]),
+                )
+            except Exception as e:  # noqa: BLE001
+                self._json(200, {"ok": False, "message": "Auswertung fehlgeschlagen: %s" % e})
         elif path == "/api/repo/target":
             try:
                 self._json(200, dict(ok=True, **self.repo.target(body.get("yaml", ""), body.get("pattern"), body.get("name", ""))))
