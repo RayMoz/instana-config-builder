@@ -38,6 +38,8 @@ ab; Anker, Aliase und Tags werden nicht unterstützt).
   Überschreiben, automatische `.bak`-Sicherung mit Zeitstempel.
 - **Ins Repository:** legt die Datei in einem lokalen Konfigurations-Repository ab. Verzeichnis und
   Dateiname ergeben sich aus den Tags (siehe unten).
+- **Fleet-Befehle:** zeigt die `instana-fleet`-Befehle zum Hochladen und Verteilen der gespeicherten
+  Datei (siehe unten).
 - **Endgültige Konfig prüfen:** mehrere `configuration*.yaml` aus beliebigen Verzeichnissen
   auswählen und so zusammenführen, wie der Agent sie auswertet (siehe unten).
 - **Formulare** für rund 60 Sensoren mit dokumentierten Optionen, Standardwerten und Doku-Link;
@@ -78,6 +80,22 @@ Muster lässt sich im Dialog ändern und wird beim Speichern in `.icb-repo.json`
 
 Die Dateien gehören nicht ins Git: `repository/` und alle `configuration*.yaml` stehen in `.gitignore`.
 
+### Fleet-Befehle
+
+„Fleet-Befehle …“ erzeugt für die gespeicherte Datei die Befehle – angezeigt, nicht ausgeführt:
+
+1. `instana-fleet import-config --type com.ibm.instana.agent --include <datei> --config-name … --config-version …`
+2. `instana-fleet list-configs …` zum Nachschlagen der Configuration-ID
+3. `instana-fleet update-config --type com.ibm.instana.agent --tag key=wert … --configuration-id …`
+
+Vorgeschlagen werden der Konfigurationsname (aus Verzeichnissen und Dateiname, z. B.
+`organisation-production-basis`), die Version (zuletzt verwendete je Datei, „+1“ erhöht die
+Patch-Version) und als Selektoren alle `key=wert`-Verzeichnisse des Repository-Pfads; weitere Tags
+(z. B. `hostname=…`) lassen sich ergänzen. Hinweise erscheinen u. a., wenn der Selektor eine
+Verzeichnisebene weglässt (dann erreicht `update-config` auch Agenten außerhalb der Gruppe). Ob die
+CLI mehrere `--tag` kombiniert, beschreibt die Preview-Doku nicht – das ist in einer Sandbox zu prüfen.
+Die Befehle lassen sich kopieren oder als Shell-Skript herunterladen.
+
 ## Endgültige Konfiguration prüfen
 
 Der Agent liest `configuration.yaml` und alle `configuration-<suffix>.yaml` aus `etc/instana/`. Die
@@ -106,6 +124,7 @@ icb/                        Python-Paket
   files.py                  Öffnen, Verzeichnisliste, Speichern
   repo.py                   Konfigurations-Repository: Pfad aus Tags
   merge.py                  mehrere Dateien wie der Agent zusammenführen
+  fleet.py                  instana-fleet-Befehle erzeugen
   server.py                 HTTP-Server und Kommandozeile
 web/                        Oberfläche (index.html, app.js, app.css)
 catalog/                    Plugin-Katalog (eine JSON-Datei pro Plugin)

@@ -26,6 +26,13 @@
         >
           Ins Repository …
         </button>
+        <button
+          class="btn repo"
+          id="bFleet"
+          title="instana-fleet-Befehle zum Hochladen und Verteilen der gespeicherten Datei anzeigen"
+        >
+          Fleet-Befehle …
+        </button>
         <span class="vsep"></span>
         <button
           class="btn repo"
@@ -217,6 +224,52 @@
             </button>
           </div>
           <pre id="mYaml" class="myaml"></pre>
+        </div>
+      </form>
+    </dialog>
+    <dialog id="fdlg" class="wide" aria-labelledby="fTitle">
+      <form method="dialog" class="dlg">
+        <div class="dlg-hd">
+          <h2 id="fTitle">Fleet-Befehle</h2>
+          <button class="btn small" value="cancel" formnovalidate>Schließen</button>
+        </div>
+        <p class="rhelp">
+          Befehle für <code>instana-fleet</code> (Agent Fleet Management, Preview) – werden nur angezeigt, nicht
+          ausgeführt. Hochgeladen wird die gespeicherte Datei auf der Platte.
+        </p>
+        <div class="rbody">
+          <div class="rrow"><span class="lbl">Datei</span><code id="fPath"></code></div>
+          <div class="rrow">
+            <label class="lbl" for="fName">Name</label>
+            <input id="fName" class="finput" spellcheck="false" placeholder="--config-name" />
+            <label class="lbl short" for="fVer">Version</label>
+            <input id="fVer" class="finput ver" spellcheck="false" placeholder="1.0.0" />
+            <button type="button" class="btn small" id="fBump" title="Patch-Version erhöhen (1.0.0 → 1.0.1)">
+              +1
+            </button>
+          </div>
+          <div class="rrow">
+            <span class="lbl">Agenten mit</span>
+            <span id="fTags" class="rtags"></span>
+            <input id="fTagAdd" class="finput tagadd" spellcheck="false" placeholder="weiterer Tag, z. B. hostname=…" />
+          </div>
+          <div class="rrow">
+            <label class="lbl" for="fServer">Server</label>
+            <input
+              id="fServer"
+              class="finput"
+              spellcheck="false"
+              placeholder="optional – sonst aus INSTANA_SERVER (Hostname ohne https://)"
+            />
+          </div>
+          <div class="dlg-msg" id="fMsg" hidden></div>
+          <div class="mrow">
+            <h3>Befehle</h3>
+            <span class="sp"></span>
+            <button type="button" class="btn small" id="fCopy">Kopieren</button>
+            <button type="button" class="btn small" id="fDownload">Als Skript herunterladen</button>
+          </div>
+          <pre id="fScript" class="myaml"></pre>
         </div>
       </form>
     </dialog>

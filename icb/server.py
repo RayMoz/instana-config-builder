@@ -13,6 +13,7 @@ from . import VERSION
 from .catalog import CatalogError, default_dir, load_catalog
 from .files import list_dir, open_file, save_file
 from .importer import import_yaml, validate_yaml
+from .fleet import plan as fleet_plan
 from .merge import evaluate
 from .repo import Repo
 from .yamlio import BACKEND
@@ -142,6 +143,14 @@ class Handler(BaseHTTPRequestHandler):
                 )
             except Exception as e:  # noqa: BLE001
                 self._json(200, {"ok": False, "message": "Auswertung fehlgeschlagen: %s" % e})
+        elif path == "/api/fleet":
+            if not body.get("path"):
+                self._json(200, {"ok": False, "message": "Bitte die Konfiguration zuerst speichern."})
+                return
+            try:
+                self._json(200, fleet_plan(body, self.repo.root))
+            except Exception as e:  # noqa: BLE001
+                self._json(200, {"ok": False, "message": str(e)})
         elif path == "/api/repo/target":
             try:
                 self._json(200, dict(ok=True, **self.repo.target(body.get("yaml", ""), body.get("pattern"), body.get("name", ""))))
