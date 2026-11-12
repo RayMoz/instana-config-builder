@@ -1125,3 +1125,32 @@ dialog.wide .dlg {
   font-style: normal;
   font-weight: 600;
 }
+
+/* Fleet-Befehle */
+.finput {
+  flex: 1;
+  min-width: 160px;
+  font-family: var(--mono);
+  font-size: 13px;
+  padding: 5px 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--fg);
+}
+.finput.ver {
+  flex: 0 0 110px;
+  min-width: 0;
+}
+.finput.tagadd {
+  flex: 0 1 240px;
+}
+.rbody .lbl.short {
+  min-width: 0;
+}
+.fsel {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}

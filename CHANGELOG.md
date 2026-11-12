@@ -44,6 +44,11 @@ Format nach [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionen 
   ergänzt. Anzeige der Lesereihenfolge, der überschriebenen Optionen und der endgültigen YAML mit
   Herkunft je Wert; Hinweise auf Dateien, die der Agent nicht liest, und doppelte Dateinamen.
   Ergebnis kopieren oder in den Editor übernehmen. Neuer API-Endpunkt `/api/merge`.
+- „Fleet-Befehle …“: zeigt für die gespeicherte Datei die `instana-fleet`-Befehle `import-config`,
+  `list-configs` und `update-config` (nur Anzeige, keine Ausführung). Vorschläge für
+  Konfigurationsname, Version und Tag-Selektoren aus dem Repository-Pfad; Hinweise bei
+  unpassendem Dateinamen, fehlendem oder unvollständigem Selektor; Kopieren oder Download als
+  Shell-Skript. Neuer API-Endpunkt `/api/fleet`.
 
 ### Behoben
 

@@ -1434,7 +1434,7 @@ $("rOk").onclick = async () => {
     savedText = lastText;
     S.uploadName = "";
     persist();
-    setStatus("ok", "Im Repository gespeichert: " + r.rel);
+    setStatus("ok", "Im Repository gespeichert: " + r.rel + " · „Fleet-Befehle …“ zeigt, wie die Datei verteilt wird.");
     $("rdlg").close();
     return;
   }
@@ -1649,6 +1649,121 @@ $("mToEditor").onclick = async () => {
   if (await importText(M.res.yaml, "configuration-endgueltig.yaml")) $("mdlg").close();
 };
 
+/* Fleet-Befehle (nur anzeigen) */
+const F = { timer: null, tags: [], options: [], res: null };
+function fleetState() {
+  return (S.fleet = S.fleet || { server: "", versions: {} });
+}
+async function fleetUpdate(first) {
+  const st = fleetState();
+  const body = { path: S.file, yaml: lastText, server: $("fServer").value };
+  if (!first) {
+    body.configName = $("fName").value;
+    body.version = $("fVer").value;
+    body.tags = F.tags;
+  } else body.version = st.versions[S.file] || "1.0.0";
+  const r = await api("/api/fleet", body);
+  F.res = r.ok ? r : null;
+  const msg = $("fMsg");
+  if (!r.ok) {
+    msg.hidden = false;
+    msg.textContent = r.message;
+    $("fScript").textContent = "";
+    return;
+  }
+  if (first) {
+    $("fName").value = r.suggest.configName;
+    $("fVer").value = body.version;
+    F.tags = [...r.tags];
+    F.options = [...r.suggest.selectors];
+    renderFleetTags();
+  }
+  const notes = [...r.warnings];
+  if (lastText !== savedText) notes.unshift("Der Editor enthält ungespeicherte Änderungen – hochgeladen wird die gespeicherte Datei.");
+  msg.hidden = !notes.length;
+  msg.textContent = notes.join(" · ");
+  $("fScript").innerHTML = r.script
+    .split("\n")
+    .map((l) => {
+      const e = l.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+      return /^\s*#/.test(l) ? '<span class="yc">' + e + "</span>" : e.replace(/(--[a-z-]+)/g, '<span class="yk">$1</span>');
+    })
+    .join("\n");
+}
+function renderFleetTags() {
+  const T = $("fTags");
+  T.innerHTML = "";
+  for (const t of [...new Set([...F.options, ...F.tags])]) {
+    const cb = el("input", { type: "checkbox" });
+    cb.checked = F.tags.includes(t);
+    cb.onchange = () => {
+      F.tags = cb.checked ? [...F.tags, t] : F.tags.filter((x) => x !== t);
+      fleetUpdate();
+    };
+    T.append(el("label", { class: "rtag fsel" }, cb, " --tag " + t));
+  }
+  if (!F.options.length && !F.tags.length) T.append(el("span", { class: "none", text: "keine Tags gefunden" }));
+}
+function openFleetDialog() {
+  if (!S.file) {
+    setStatus("info", "Bitte die Konfiguration zuerst speichern – am besten „Ins Repository …“.");
+    return;
+  }
+  $("fPath").textContent = S.file;
+  $("fServer").value = fleetState().server || "";
+  $("fTagAdd").value = "";
+  $("fdlg").showModal();
+  fleetUpdate(true);
+}
+$("bFleet").onclick = openFleetDialog;
+for (const id of ["fName", "fVer", "fServer"]) {
+  $(id).addEventListener("input", () => {
+    if (id === "fServer") fleetState().server = $("fServer").value.trim();
+    if (id === "fVer") fleetState().versions[S.file] = $("fVer").value.trim();
+    persist();
+    clearTimeout(F.timer);
+    F.timer = setTimeout(() => fleetUpdate(), 200);
+  });
+}
+$("fBump").onclick = () => {
+  const m = /^(\d+)\.(\d+)\.(\d+)/.exec($("fVer").value.trim());
+  $("fVer").value = m ? m[1] + "." + m[2] + "." + (Number(m[3]) + 1) : "1.0.0";
+  fleetState().versions[S.file] = $("fVer").value;
+  persist();
+  fleetUpdate();
+};
+$("fTagAdd").addEventListener("keydown", (e) => {
+  if (e.key !== "Enter") return;
+  e.preventDefault();
+  const t = $("fTagAdd").value.trim();
+  if (!t) return;
+  if (!F.options.includes(t)) F.options.push(t);
+  if (!F.tags.includes(t)) F.tags.push(t);
+  $("fTagAdd").value = "";
+  renderFleetTags();
+  fleetUpdate();
+});
+$("fCopy").onclick = async () => {
+  if (!F.res) return;
+  try {
+    await navigator.clipboard.writeText(F.res.script);
+    $("fCopy").textContent = "Kopiert";
+    setTimeout(() => ($("fCopy").textContent = "Kopieren"), 1500);
+  } catch (e) {
+    /* Zwischenablage nicht verfügbar */
+  }
+};
+$("fDownload").onclick = () => {
+  if (!F.res) return;
+  const a = el("a", {
+    href: URL.createObjectURL(new Blob(["#!/usr/bin/env bash\nset -euo pipefail\n\n" + F.res.script], { type: "text/x-shellscript" })),
+    download: "fleet-" + ($("fName").value.trim() || "config") + "-" + ($("fVer").value.trim() || "x") + ".sh",
+  });
+  document.body.append(a);
+  a.click();
+  a.remove();
+};
+
 function loadState(plugins) {
   S.order = [];
   S.plugins = {};
@@ -1720,6 +1835,7 @@ $("optComments").onchange = (e) => {
     S.collapsed = saved.collapsed || {};
     S.mergeFiles = saved.mergeFiles || [];
     S.mergeDir = saved.mergeDir || "";
+    S.fleet = saved.fleet || { server: "", versions: {} };
   }
   setFile((saved && saved.file) || "");
   renderCatalog();
