@@ -27,6 +27,13 @@
           Ins Repository …
         </button>
         <span class="vsep"></span>
+        <button
+          class="btn repo"
+          id="bMerge"
+          title="Mehrere configuration*.yaml so zusammenführen, wie der Agent sie auswertet"
+        >
+          Endgültige Konfig prüfen …
+        </button>
         <button class="btn" id="bValidate">Prüfen</button>
         <button class="btn" id="bCopy">Kopieren</button>
         <button class="btn" id="bDownload">Herunterladen</button>
@@ -157,6 +164,59 @@
           <span class="sp"></span>
           <button class="btn" value="cancel" formnovalidate>Abbrechen</button>
           <button type="button" class="btn primary" id="rOk">Speichern</button>
+        </div>
+      </form>
+    </dialog>
+    <dialog id="mdlg" class="wide" aria-labelledby="mTitle">
+      <form method="dialog" class="dlg">
+        <div class="dlg-hd">
+          <h2 id="mTitle">Endgültige Konfiguration prüfen</h2>
+          <button class="btn small" value="cancel" formnovalidate>Schließen</button>
+        </div>
+        <p class="rhelp">
+          Wie der Agent: zuerst <code>configuration.yaml</code>, dann alle <code>configuration-*.yaml</code>
+          streng alphanumerisch. Spätere Dateien überschreiben Werte, Listen werden ergänzt. Maßgeblich ist
+          nur der Dateiname, nicht das Verzeichnis.
+        </p>
+        <div class="mgrid">
+          <div class="mcol">
+            <h3>Dateien suchen</h3>
+            <div class="dlg-path">
+              <button type="button" class="btn small" id="mUp" title="Übergeordnetes Verzeichnis">↑</button
+              ><button type="button" class="btn small" id="mHome" title="Home-Verzeichnis">~</button
+              ><button type="button" class="btn small" id="mRepo" title="Konfigurations-Repository">
+                Repository</button
+              ><input id="mDir" spellcheck="false" aria-label="Verzeichnis" />
+            </div>
+            <div class="dlg-list mlist" id="mList" aria-label="Dateien im Verzeichnis"></div>
+            <button type="button" class="btn small" id="mAddAll">
+              Alle configuration*.yaml in diesem Verzeichnis auswählen
+            </button>
+          </div>
+          <div class="mcol">
+            <h3>Auswahl in Lesereihenfolge <span id="mCount" class="tag"></span></h3>
+            <ol class="morder" id="mSel"></ol>
+            <div class="mrow">
+              <button type="button" class="btn small" id="mClear">Auswahl leeren</button>
+              <span class="sp"></span>
+              <button type="button" class="btn primary" id="mRun">Auswerten</button>
+            </div>
+          </div>
+        </div>
+        <div id="mResult" hidden>
+          <div class="dlg-msg" id="mMsg" hidden></div>
+          <h3>Überschriebene Optionen <span id="mConfN" class="tag"></span></h3>
+          <div id="mConf"></div>
+          <div class="mrow">
+            <h3>Ergebnis</h3>
+            <label class="opt"><input type="checkbox" id="mOrigin" checked /> Herkunft als Kommentar</label>
+            <span class="sp"></span>
+            <button type="button" class="btn small" id="mCopy">Kopieren</button>
+            <button type="button" class="btn small" id="mToEditor" title="Ergebnis ohne Kommentare im Editor öffnen">
+              In den Editor übernehmen
+            </button>
+          </div>
+          <pre id="mYaml" class="myaml"></pre>
         </div>
       </form>
     </dialog>

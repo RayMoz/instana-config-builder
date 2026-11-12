@@ -38,6 +38,12 @@ Format nach [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), Versionen 
   änderbar und im Repository gespeichert; Warnung bei Dateinamen, die der Agent nicht annimmt.
   Neue Option `--repo` (Standard `./repository`); Sprung ins Repository im Öffnen-Dialog.
 - `.gitignore`: `repository/` und `configuration*.yaml` in allen Verzeichnissen.
+- „Endgültige Konfig prüfen …“: mehrere `configuration*.yaml` aus verschiedenen Verzeichnissen
+  auswählen und wie der Agent zusammenführen – `configuration.yaml` zuerst, dann
+  `configuration-*.yaml` streng alphanumerisch; spätere Dateien überschreiben Werte, Listen werden
+  ergänzt. Anzeige der Lesereihenfolge, der überschriebenen Optionen und der endgültigen YAML mit
+  Herkunft je Wert; Hinweise auf Dateien, die der Agent nicht liest, und doppelte Dateinamen.
+  Ergebnis kopieren oder in den Editor übernehmen. Neuer API-Endpunkt `/api/merge`.
 
 ### Behoben
 

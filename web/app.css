@@ -938,3 +938,190 @@ dialog::backdrop {
 #rName:disabled {
   background: var(--sunk);
 }
+
+/* Endgültige Konfiguration prüfen */
+dialog.wide {
+  width: min(1180px, 96vw);
+  max-height: 92vh;
+}
+dialog.wide .dlg {
+  max-height: 92vh;
+  overflow: auto;
+}
+.dlg h3 {
+  font-size: 13px;
+  margin: 4px 0 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.mgrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 800px) {
+  .mgrid {
+    grid-template-columns: 1fr;
+  }
+}
+.mcol {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+.mlist {
+  height: 260px;
+}
+.mfile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.mfile:hover {
+  background: var(--sunk);
+}
+.mfile.dim {
+  color: var(--muted);
+}
+.mfile .meta {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--muted);
+}
+.morder {
+  counter-reset: mo;
+  margin: 0;
+  padding: 0;
+  height: 260px;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel);
+}
+.morder li {
+  counter-increment: mo;
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr) auto;
+  column-gap: 6px;
+  align-items: center;
+  padding: 5px 8px;
+  border-bottom: 1px solid var(--line);
+}
+.morder li::before {
+  content: counter(mo) ".";
+  grid-row: 1 / span 2;
+  color: var(--accent);
+  font-weight: 700;
+  text-align: right;
+}
+.morder li .nm {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 12.5px;
+}
+.morder li .dir {
+  grid-column: 2;
+  direction: rtl; /* Ende des Pfads sichtbar lassen */
+  text-align: left;
+  font-size: 11px;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.morder li .btn {
+  grid-column: 3;
+  grid-row: 1 / span 2;
+}
+.morder li.bad strong {
+  color: var(--warn);
+}
+.morder li.none::before {
+  content: none;
+}
+.morder li.none {
+  display: block;
+  list-style: none;
+  color: var(--muted);
+  font-size: 12.5px;
+  border: 0;
+}
+.mrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.mrow .sp {
+  flex: 1;
+}
+#mResult {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+}
+#mResult[hidden] {
+  display: none;
+}
+.mconf {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 12.5px;
+}
+.mconf th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--muted);
+  border-bottom: 1px solid var(--line);
+  padding: 4px 8px;
+}
+.mconf td {
+  vertical-align: top;
+  padding: 5px 8px;
+  border-bottom: 1px solid var(--line);
+}
+.mconf code {
+  font-family: var(--mono);
+}
+.mconf .win {
+  color: var(--ok);
+  font-weight: 600;
+}
+.mconf .lost code {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+.mconf .src {
+  font-size: 11px;
+  color: var(--muted);
+}
+.myaml {
+  margin: 0;
+  padding: 10px 12px;
+  background: var(--code);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  line-height: 1.5;
+  overflow: auto;
+  max-height: 50vh;
+}
+.morig {
+  color: var(--muted);
+  font-style: italic;
+}
+.morig .ovr {
+  color: var(--warn);
+  font-style: normal;
+  font-weight: 600;
+}

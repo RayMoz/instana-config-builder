@@ -38,6 +38,8 @@ ab; Anker, Aliase und Tags werden nicht unterstützt).
   Überschreiben, automatische `.bak`-Sicherung mit Zeitstempel.
 - **Ins Repository:** legt die Datei in einem lokalen Konfigurations-Repository ab. Verzeichnis und
   Dateiname ergeben sich aus den Tags (siehe unten).
+- **Endgültige Konfig prüfen:** mehrere `configuration*.yaml` aus beliebigen Verzeichnissen
+  auswählen und so zusammenführen, wie der Agent sie auswertet (siehe unten).
 - **Formulare** für rund 60 Sensoren mit dokumentierten Optionen, Standardwerten und Doku-Link;
   weitere rund 90 Plugin-Schlüssel mit freiem YAML. Eigene Schlüssel lassen sich hinzufügen.
 - **Live-Vorschau** der YAML, optional mit Beschreibungen als Kommentar, Syntaxprüfung inklusive
@@ -76,6 +78,23 @@ Muster lässt sich im Dialog ändern und wird beim Speichern in `.icb-repo.json`
 
 Die Dateien gehören nicht ins Git: `repository/` und alle `configuration*.yaml` stehen in `.gitignore`.
 
+## Endgültige Konfiguration prüfen
+
+Der Agent liest `configuration.yaml` und alle `configuration-<suffix>.yaml` aus `etc/instana/`. Die
+Instana-Oberfläche zeigt alle Dateien, aber nicht, welcher Wert bei Dopplungen gilt. Der Dialog
+„Endgültige Konfig prüfen …“ wertet die ausgewählten Dateien wie der Agent aus:
+
+1. zuerst `configuration.yaml`, dann alle `configuration-*.yaml` streng alphanumerisch
+   (Zeichencode: `configuration-aa.yaml` vor `configuration-bb.yaml`, Großbuchstaben vor Kleinbuchstaben)
+2. Mappings werden zusammengeführt; bei gleichen Schlüsseln gewinnt die später gelesene Datei
+3. Listen (z. B. `tags`) werden ergänzt, nicht ersetzt
+
+Maßgeblich ist nur der Dateiname. Dateien mit anderen Namen werden angezeigt, aber nicht gelesen;
+gleiche Dateinamen aus verschiedenen Verzeichnissen werden gemeldet, da es auf dem Agenten nur
+eine Datei dieses Namens geben kann. Das Ergebnis zeigt die überschriebenen Optionen als Tabelle und
+die endgültige YAML, wahlweise mit Herkunft je Wert als Kommentar. Es lässt sich kopieren oder in den
+Editor übernehmen.
+
 ## Projektstruktur
 
 ```
@@ -86,6 +105,7 @@ icb/                        Python-Paket
   yamlio.py, miniyaml.py    YAML lesen/schreiben (PyYAML oder eingebaut)
   files.py                  Öffnen, Verzeichnisliste, Speichern
   repo.py                   Konfigurations-Repository: Pfad aus Tags
+  merge.py                  mehrere Dateien wie der Agent zusammenführen
   server.py                 HTTP-Server und Kommandozeile
 web/                        Oberfläche (index.html, app.js, app.css)
 catalog/                    Plugin-Katalog (eine JSON-Datei pro Plugin)
